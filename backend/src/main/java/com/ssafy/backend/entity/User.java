@@ -1,5 +1,6 @@
 package com.ssafy.backend.entity;
 
+
 import com.ssafy.backend.request.UserRegisterRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class User {
     private int missionProgress;
     private boolean isAdmin;
     private boolean isBanned;
+
     private String profileURL;
     private int warningCount;
 
@@ -39,5 +41,4 @@ public class User {
                 .warningCount(0)
                 .build();
     }
-
 }
