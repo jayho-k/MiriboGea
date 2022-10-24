@@ -1,4 +1,4 @@
-package com.ssafy.backend.response.entity;
+package com.ssafy.backend.entity;
 
 import javax.persistence.*;
 
