@@ -29,6 +29,7 @@ public class BoardController {
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
     public ResponseEntity<? extends BaseResponseBody> createArticle(@RequestBody @Validated CreateArticleReq createArticleReq) {
+        // user 인증방식으로 바꾸기
         Optional<User> user = userService.getUserById(1L);
         boardService.createArticle(user.get(), createArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
