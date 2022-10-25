@@ -2,7 +2,9 @@ package com.ssafy.backend.controller;
 
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
+import com.ssafy.backend.entity.UserBoardLike;
 import com.ssafy.backend.response.ArticleDetailRes;
+import com.ssafy.backend.response.ArticleLikeRes;
 import com.ssafy.backend.response.ArticleListRes;
 import com.ssafy.backend.service.BoardService;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Api(value = "게시판 API", tags = {"Board"})
 @RestController
@@ -88,9 +91,32 @@ public class BoardController {
         if (userId == writerId) {
             boardService.deleteArticle(boardId);
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-        };
+        }
         throw new IllegalStateException("게시글 작성자가 아닙니다.");
     }
+
+
+    @PostMapping("/like/{boardId}")
+    @ApiOperation(value = "게시글 좋아요", notes = "토큰을 이용해 유저가 게시글에 좋아요 혹은 좋아요 취소를 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+    })
+    public ResponseEntity<ArticleLikeRes> likeArticle(@PathVariable Long boardId) {
+        // user 인증방식으로 바꾸기
+        Long userId = 1L;
+        // Optional 로 받아오기
+        Optional<UserBoardLike> userBoardLike = boardService.getUserBoardLike(boardId, userId);
+        // 있으면 삭제 후 return 0
+        if (userBoardLike.isPresent()){
+            Long userBoardLikeId = userBoardLike.get().getId();
+            boardService.deleteArticleLike(userBoardLikeId);
+            return ResponseEntity.status(200).body(ArticleLikeRes.of(200,"success",false));
+        }
+        // null 값이면 새로 생성 후 return 1
+        boardService.createArticleLike(userService.getUserById(userId).get(), boardService.getArticleById(boardId).get());
+        return ResponseEntity.status(200).body(ArticleLikeRes.of(200,"success",true));
+    }
+
 
 
 

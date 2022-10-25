@@ -2,10 +2,11 @@ package com.ssafy.backend.service;
 
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.User;
+import com.ssafy.backend.entity.UserBoardLike;
 import com.ssafy.backend.repository.BoardRepository;
+import com.ssafy.backend.repository.UserBoardLikeRepository;
 import com.ssafy.backend.request.CreateArticleReq;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -14,12 +15,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
+
+    private final UserBoardLikeRepository userBoardLikeRepository;
 
     @Override
     public Board createArticle(User user, CreateArticleReq createArticleReq) {
@@ -57,6 +61,24 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Board> getArticleListByCategory(String category) {
         return boardRepository.findAll().stream().filter(v -> v.getCategory().equals(category)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<UserBoardLike> getUserBoardLike(Long boardId, Long userId) {
+        return userBoardLikeRepository.findAll().stream().filter(v -> v.getBoard().getId().equals(boardId) && v.getUser().getId().equals(userId)).findAny();
+    }
+
+    @Override
+    public void deleteArticleLike(Long userBoardLikeId) {
+        userBoardLikeRepository.deleteById(userBoardLikeId);
+    }
+
+    @Override
+    public UserBoardLike createArticleLike(User user, Board board) {
+        UserBoardLike userBoardLike = new UserBoardLike();
+        userBoardLike.setUser(user);
+        userBoardLike.setBoard(board);
+        return userBoardLikeRepository.save(userBoardLike);
     }
 
 
