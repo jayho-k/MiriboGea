@@ -16,10 +16,10 @@ public interface BoardService {
     Board createArticle(User user, CreateArticleReq createArticleReq);
 
     Comment createComment(User user,Board board, CreateCommentReq createCommentReq);
-
-    Comment updateComment(Comment comment, UpdateCommentReq updateCommentReq);
-
     List<Comment> getComment(Long board_id);
+    void updateComment(Comment comment, UpdateCommentReq updateCommentReq);
+    void deleteComment(Long comment_id);
+
 
     Optional<Board> getBoardById(Long id);
 

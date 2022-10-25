@@ -40,6 +40,7 @@ public class BoardController {
         boardService.createArticle(user.get(), createArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
+
     @PostMapping("/comment/{board_id}")
     public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
         Optional<User> user = userService.getUserById(1L);
@@ -51,16 +52,20 @@ public class BoardController {
     @GetMapping("/comment/{board_id}")
     public ResponseEntity<? extends GetCommentRes> getComment(@PathVariable Long board_id) {
         List<Comment> commentList = boardService.getComment(board_id);
-        return ResponseEntity.status(200).body(GetCommentRes.of(commentList,200,"success"));
+        return ResponseEntity.status(200).body(GetCommentRes.of(commentList, 200, "success"));
     }
 
     @PutMapping("/comment/{comment_id}")
-    public ResponseEntity<? extends BaseResponseBody> updateComment(@PathVariable Long comment_id,@RequestBody @Validated UpdateCommentReq updateCommentReq) {
+    public ResponseEntity<? extends BaseResponseBody> updateComment(@PathVariable Long comment_id, @RequestBody @Validated UpdateCommentReq updateCommentReq) {
 //        Optional<User> user = userService.getUserById(1L);
         Optional<Comment> comment = boardService.getCommentById(comment_id);
-        boardService.updateComment(comment.get(),updateCommentReq);
+        boardService.updateComment(comment.get(), updateCommentReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 
-
+    @DeleteMapping("/comment/{comment_id}")
+    public ResponseEntity<? extends BaseResponseBody> deleteComment(@PathVariable Long comment_id) {
+        boardService.deleteComment(comment_id);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+    }
 }

@@ -49,12 +49,17 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public Comment updateComment(Comment comment, UpdateCommentReq updateCommentReq) {
+    public void updateComment(Comment comment, UpdateCommentReq updateCommentReq) {
         String commentContent = updateCommentReq.getContent();
         LocalDateTime updatedAt = updateCommentReq.getCreatedAt();
         comment.setContent(commentContent);
         comment.setCreatedAt(updatedAt);
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteComment(Long comment_id) {
+        commentRepository.deleteById(comment_id);
     }
 
     @Override
