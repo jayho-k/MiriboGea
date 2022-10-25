@@ -35,5 +35,5 @@ jwt:
 com:
   ssafy:
     kakao:
-      client_id: 07ca3e6446c8bfb6689ba8989b85cce4
+      client_id: cef347beb88f59749e6dea07ba6cdbaf
       redirect_uri: http://localhost:3000/loginresult
