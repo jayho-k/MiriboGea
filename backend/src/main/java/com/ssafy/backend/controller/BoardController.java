@@ -3,6 +3,7 @@ package com.ssafy.backend.controller;
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.response.ArticleDetailRes;
+import com.ssafy.backend.response.ArticleListRes;
 import com.ssafy.backend.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 import com.ssafy.backend.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Api(value = "게시판 API", tags = {"Board"})
@@ -26,11 +28,14 @@ public class BoardController {
     private final UserService userService;
 
     @GetMapping("/{category}")
-    @ApiOperation(value = "게시글 전체조회", notes = "카테고리별로 게시글 리스트를 조회한다.")
+    @ApiOperation(value = "게시글 전체조회", notes = "카테고리별 게시글 리스트를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public
+    public ResponseEntity<ArticleListRes> getArticleList(@PathVariable("category") String category) {
+        List<Board> articleList = boardService.getArticleListByCategory(category);
+        return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", articleList));
+    }
 
     @GetMapping("/detail/{boardId}")
     @ApiOperation(value = "게시글 상세조회", notes = "선택한 게시글을 조회한다.")

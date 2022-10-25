@@ -5,12 +5,15 @@ import com.ssafy.backend.entity.User;
 import com.ssafy.backend.repository.BoardRepository;
 import com.ssafy.backend.request.CreateArticleReq;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +52,11 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void deleteArticle(Long boardId) {
         boardRepository.deleteById(boardId);
+    }
+
+    @Override
+    public List<Board> getArticleListByCategory(String category) {
+        return boardRepository.findAll().stream().filter(v -> v.getCategory().equals(category)).collect(Collectors.toList());
     }
 
 
