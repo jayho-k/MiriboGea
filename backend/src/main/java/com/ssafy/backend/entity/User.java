@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -43,4 +44,5 @@ public class User {
                 .warningCount(0)
                 .build();
     }
+
 }
