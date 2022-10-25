@@ -1,9 +1,10 @@
 package com.ssafy.backend.controller;
 
 import com.ssafy.backend.common.model.response.BaseResponseBody;
+import com.ssafy.backend.service.BoardService;
+import io.swagger.annotations.ApiOperation;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.request.CreateArticleReq;
-import com.ssafy.backend.service.BoardService;
 import com.ssafy.backend.service.UserService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,6 @@ import java.util.Optional;
 public class BoardController {
 
     private final BoardService boardService;
-
     private final UserService userService;
 
     @PostMapping
@@ -32,5 +32,12 @@ public class BoardController {
         Optional<User> user = userService.getUserById(1L);
         boardService.createArticle(user.get(), createArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+    }
+
+    @PostMapping("/comment/{board_id}")
+    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id) throws Exception {
+
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글작성이 완료되었습니다."));
     }
 }
