@@ -4,6 +4,7 @@ package com.ssafy.backend.entity;
 import com.ssafy.backend.request.UserRegisterRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class User {
 
     @Id
