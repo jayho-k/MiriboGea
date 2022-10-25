@@ -9,5 +9,6 @@ public interface UserService {
 
     Optional<User> getUserById(Long id);
     User registerUser(UserRegisterRequest userRegisterInfo);
+    Optional<User> getUserByEmail(String email);
 
 }
