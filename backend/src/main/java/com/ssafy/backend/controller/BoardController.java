@@ -25,6 +25,13 @@ public class BoardController {
     private final BoardService boardService;
     private final UserService userService;
 
+    @GetMapping("/{category}")
+    @ApiOperation(value = "게시글 전체조회", notes = "카테고리별로 게시글 리스트를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+    })
+    public
+
     @GetMapping("/detail/{boardId}")
     @ApiOperation(value = "게시글 상세조회", notes = "선택한 게시글을 조회한다.")
     @ApiResponses({
