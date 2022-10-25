@@ -46,6 +46,11 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.save(board);
     }
 
+    @Override
+    public void deleteArticle(Long boardId) {
+        boardRepository.deleteById(boardId);
+    }
+
 
     @Override
     public int createComment(Long user_id, Long board_id) {

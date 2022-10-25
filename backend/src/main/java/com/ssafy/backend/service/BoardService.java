@@ -15,6 +15,8 @@ public interface BoardService {
 
     Board updateArticle(Long boardId, Map<Object, Object> objectMap);
 
+    void deleteArticle(Long boardId);
+
     int createComment(Long user_id, Long board_id);
     int deleteComment(Long user_id, Long comment_id);
 }
