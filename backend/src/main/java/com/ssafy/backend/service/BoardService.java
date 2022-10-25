@@ -4,9 +4,13 @@ import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.request.CreateArticleReq;
 
+import java.util.Optional;
+
 public interface BoardService {
 
     Board createArticle(User user, CreateArticleReq createArticleReq);
+
+    Optional<Board> getArticleById(Long board_id);
 
     int createComment(Long user_id, Long board_id);
     int deleteComment(Long user_id, Long comment_id);

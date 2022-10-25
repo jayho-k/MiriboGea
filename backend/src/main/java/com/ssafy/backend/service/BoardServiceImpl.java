@@ -7,6 +7,8 @@ import com.ssafy.backend.request.CreateArticleReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
@@ -23,6 +25,11 @@ public class BoardServiceImpl implements BoardService {
         board.setPicURL(createArticleReq.getPicURL());
         board.setCreatedAt(createArticleReq.getCreatedAt());
         return boardRepository.save(board);
+    }
+
+    @Override
+    public Optional<Board> getArticleById(Long board_id) {
+        return boardRepository.findById(board_id);
     }
 
 
