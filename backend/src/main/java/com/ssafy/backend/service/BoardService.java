@@ -1,19 +1,20 @@
 package com.ssafy.backend.service;
 
 import com.ssafy.backend.entity.Board;
+import com.ssafy.backend.entity.Comment;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.entity.UserBoardLike;
 import com.ssafy.backend.request.CreateArticleReq;
+import com.ssafy.backend.request.CreateCommentReq;
+import com.ssafy.backend.request.UpdateCommentReq;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Map;
 
 public interface BoardService {
 
     Board createArticle(User user, CreateArticleReq createArticleReq);
-
-    Optional<Board> getArticleById(Long boardId);
 
     Board updateArticle(Long boardId, Map<Object, Object> objectMap);
 
@@ -27,6 +28,15 @@ public interface BoardService {
 
     UserBoardLike createArticleLike(User user, Board board);
 
-    int createComment(Long user_id, Long board_id);
-    int deleteComment(Long user_id, Long comment_id);
+    Comment createComment(User user,Board board, CreateCommentReq createCommentReq);
+
+    List<Comment> getComment(Long board_id);
+
+    void updateComment(Comment comment, UpdateCommentReq updateCommentReq);
+
+    void deleteComment(Long comment_id);
+
+    Optional<Board> getBoardById(Long id);
+
+    Optional<Comment> getCommentById(Long id);
 }

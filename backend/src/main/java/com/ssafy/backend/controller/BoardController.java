@@ -6,6 +6,10 @@ import com.ssafy.backend.entity.UserBoardLike;
 import com.ssafy.backend.response.ArticleDetailRes;
 import com.ssafy.backend.response.ArticleLikeRes;
 import com.ssafy.backend.response.ArticleListRes;
+import com.ssafy.backend.entity.Comment;
+import com.ssafy.backend.request.CreateCommentReq;
+import com.ssafy.backend.request.UpdateCommentReq;
+import com.ssafy.backend.response.GetCommentRes;
 import com.ssafy.backend.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 import com.ssafy.backend.entity.User;
@@ -46,7 +50,7 @@ public class BoardController {
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
     public ResponseEntity<ArticleDetailRes> getArticleDetail(@PathVariable("boardId") Long boardId) {
-        Board board = boardService.getArticleById(boardId).get();
+        Board board = boardService.getBoardById(boardId).get();
         return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board));
     }
 
@@ -69,7 +73,7 @@ public class BoardController {
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
     public ResponseEntity<? extends BaseResponseBody> updateArticle(@PathVariable Long boardId, @RequestBody Map<Object,Object> objectMap) {
-        Long writerId = boardService.getArticleById(boardId).get().getUser().getId();
+        Long writerId = boardService.getBoardById(boardId).get().getUser().getId();
         // user 인증방식으로 바꾸기
         Long userId = 1L;
         if (userId == writerId){
@@ -85,7 +89,7 @@ public class BoardController {
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
     public ResponseEntity<? extends BaseResponseBody> deleteArticle(@PathVariable Long boardId) {
-        Long writerId = boardService.getArticleById(boardId).get().getUser().getId();
+        Long writerId = boardService.getBoardById(boardId).get().getUser().getId();
         // user 인증방식으로 바꾸기
         Long userId = 1L;
         if (userId == writerId) {
@@ -113,20 +117,35 @@ public class BoardController {
             return ResponseEntity.status(200).body(ArticleLikeRes.of(200,"success",false));
         }
         // null 값이면 새로 생성 후 return 1
-        boardService.createArticleLike(userService.getUserById(userId).get(), boardService.getArticleById(boardId).get());
+        boardService.createArticleLike(userService.getUserById(userId).get(), boardService.getBoardById(boardId).get());
         return ResponseEntity.status(200).body(ArticleLikeRes.of(200,"success",true));
     }
 
-
-
-
-
-
-
     @PostMapping("/comment/{board_id}")
-    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id) throws Exception {
-
-
+    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
+        Optional<User> user = userService.getUserById(1L);
+        Optional<Board> board = boardService.getBoardById(board_id);
+        boardService.createComment(user.get(), board.get(), createCommentReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글작성이 완료되었습니다."));
+    }
+
+    @GetMapping("/comment/{board_id}")
+    public ResponseEntity<? extends GetCommentRes> getComment(@PathVariable Long board_id) {
+        List<Comment> commentList = boardService.getComment(board_id);
+        return ResponseEntity.status(200).body(GetCommentRes.of(commentList, 200, "success"));
+    }
+
+    @PutMapping("/comment/{comment_id}")
+    public ResponseEntity<? extends BaseResponseBody> updateComment(@PathVariable Long comment_id, @RequestBody @Validated UpdateCommentReq updateCommentReq) {
+//        Optional<User> user = userService.getUserById(1L);
+        Optional<Comment> comment = boardService.getCommentById(comment_id);
+        boardService.updateComment(comment.get(), updateCommentReq);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+    }
+
+    @DeleteMapping("/comment/{comment_id}")
+    public ResponseEntity<? extends BaseResponseBody> deleteComment(@PathVariable Long comment_id) {
+        boardService.deleteComment(comment_id);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 }
