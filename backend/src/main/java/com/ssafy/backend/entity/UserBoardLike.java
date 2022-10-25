@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class UserBoardLike {
 
     @Id
+    @GeneratedValue
     @Column(name = "user_board_like_id")
     private Long id;
 

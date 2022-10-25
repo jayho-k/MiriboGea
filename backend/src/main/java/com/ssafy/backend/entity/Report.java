@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class Report {
 
     @Id
+    @GeneratedValue
     @Column(name="report_id")
     private Long id;
     private String content;

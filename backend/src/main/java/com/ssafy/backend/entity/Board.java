@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class Board {
 
     @Id
+    @GeneratedValue
     @Column(name = "board_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String content;
