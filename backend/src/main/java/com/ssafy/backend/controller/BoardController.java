@@ -122,10 +122,10 @@ public class BoardController {
     }
 
     @PostMapping("/comment/{board_id}")
-    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
-        Optional<User> user = userService.getUserById(1L);
-        Optional<Board> board = boardService.getBoardById(board_id);
-        boardService.createComment(user.get(), board.get(), createCommentReq);
+        public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
+            Optional<User> user = userService.getUserById(1L);
+            Optional<Board> board = boardService.getBoardById(board_id);
+            boardService.createComment(user.get(), board.get(), createCommentReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글작성이 완료되었습니다."));
     }
 
