@@ -10,6 +10,9 @@ import com.ssafy.backend.request.ReportArticleReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
@@ -29,7 +32,10 @@ public class ReportServiceImpl implements ReportService {
         reportRepository.save(report);
     }
 
-
-
-
+    @Override
+    public List<Report> GetReport(User user, String state) {
+        // 관리자 유저인지 확인해줘야함
+        // state : unread,warning,notWarning
+        return  reportRepository.findByState(state);
+    }
 }
