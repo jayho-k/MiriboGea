@@ -17,9 +17,12 @@ import com.ssafy.backend.request.CreateArticleReq;
 import com.ssafy.backend.service.UserService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -34,14 +37,13 @@ public class BoardController {
     private final BoardService boardService;
     private final UserService userService;
 
-    @GetMapping("/{category}")
+    @GetMapping("/{category}") // ex) http://localhost:8080/api/board/freeBoard?page=0
     @ApiOperation(value = "게시글 전체조회", notes = "카테고리별 게시글 리스트를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<ArticleListRes> getArticleList(@PathVariable("category") String category) {
-        // Pageable 추가
-        List<Board> articleList = boardService.getArticleListByCategory(category);
+    public ResponseEntity<ArticleListRes> getArticleList(@PathVariable("category") String category, @ApiIgnore @PageableDefault(size = 12) Pageable pageable) {
+        List<Board> articleList = boardService.getArticleListByCategory(category,pageable);
         return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", articleList));
     }
 
@@ -55,12 +57,15 @@ public class BoardController {
         return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board));
     }
 
-    @GetMapping("/myboard")
-    public ResponseEntity<ArticleListRes> getMyBoardList() {
-        // pageable 추가
+    @GetMapping("/myboard") // ex) http://localhost:8080/api/board/myboard?page=0
+    @ApiOperation(value = "내 게시글 전체조회", notes = "내가 쓴 게시글 리스트를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+    })
+    public ResponseEntity<ArticleListRes> getMyBoardList(@ApiIgnore @PageableDefault(size = 15) Pageable pageable) {
         // user 인증방식으로 바꾸기
         Long userId = 1L;
-        List<Board> myBoardList = boardService.getArticleListByUserId(userId);
+        List<Board> myBoardList = boardService.getArticleListByUserId(userId,pageable);
         return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", myBoardList));
     }
 
