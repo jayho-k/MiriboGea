@@ -41,7 +41,6 @@ public class BoardServiceImpl implements BoardService {
         board.setContent(createArticleReq.getContent());
         board.setCategory(createArticleReq.getCategory());
         board.setPicURL(createArticleReq.getPicURL());
-        board.setCreatedAt(createArticleReq.getCreatedAt());
         return boardRepository.save(board);
     }
 
