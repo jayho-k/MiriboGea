@@ -40,6 +40,7 @@ public class BoardController {
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
     public ResponseEntity<ArticleListRes> getArticleList(@PathVariable("category") String category) {
+        // Pageable 추가
         List<Board> articleList = boardService.getArticleListByCategory(category);
         return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", articleList));
     }
@@ -52,6 +53,15 @@ public class BoardController {
     public ResponseEntity<ArticleDetailRes> getArticleDetail(@PathVariable("boardId") Long boardId) {
         Board board = boardService.getBoardById(boardId).get();
         return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board));
+    }
+
+    @GetMapping("/myboard")
+    public ResponseEntity<ArticleListRes> getMyBoardList() {
+        // pageable 추가
+        // user 인증방식으로 바꾸기
+        Long userId = 1L;
+        List<Board> myBoardList = boardService.getArticleListByUserId(userId);
+        return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", myBoardList));
     }
 
     @PostMapping
@@ -122,10 +132,10 @@ public class BoardController {
     }
 
     @PostMapping("/comment/{board_id}")
-        public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
-            Optional<User> user = userService.getUserById(1L);
-            Optional<Board> board = boardService.getBoardById(board_id);
-            boardService.createComment(user.get(), board.get(), createCommentReq);
+    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
+        Optional<User> user = userService.getUserById(1L);
+        Optional<Board> board = boardService.getBoardById(board_id);
+        boardService.createComment(user.get(), board.get(), createCommentReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글작성이 완료되었습니다."));
     }
 

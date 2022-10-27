@@ -41,7 +41,6 @@ public class BoardServiceImpl implements BoardService {
         board.setContent(createArticleReq.getContent());
         board.setCategory(createArticleReq.getCategory());
         board.setPicURL(createArticleReq.getPicURL());
-        board.setCreatedAt(createArticleReq.getCreatedAt());
         return boardRepository.save(board);
     }
 
@@ -64,6 +63,11 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Board> getArticleListByCategory(String category) {
         return boardRepository.findAll().stream().filter(v -> v.getCategory().equals(category)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Board> getArticleListByUserId(Long userId) {
+        return boardRepository.findAll().stream().filter(v -> v.getUser().getId().equals(userId)).collect(Collectors.toList());
     }
 
     @Override

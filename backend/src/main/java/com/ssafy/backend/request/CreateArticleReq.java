@@ -26,8 +26,4 @@ public class CreateArticleReq {
     @ApiModelProperty(name="사진 URL", example = "https://www.naver.com/")
     private String picURL;
 
-    @NotNull
-    @ApiModelProperty(name="생성시간", example = "2022-10-24T12:32:22.000003333")
-    private LocalDateTime createdAt;
-
 }
