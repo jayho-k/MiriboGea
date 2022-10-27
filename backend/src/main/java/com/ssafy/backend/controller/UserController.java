@@ -89,9 +89,15 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public ResponseEntity<?> userInfo(@RequestHeader("userId") Long userId){
+    public ResponseEntity<?> userInfo(@RequestHeader("userId") Long userId) {
         logger.debug("userId: {}", userId);
-        User user=userService.findOne(userId).orElseGet(()->new User());
-        return  BaseResponse.success(UserResponse.of(user));
+        User user = userService.findOne(userId).orElseGet(() -> new User());
+        return BaseResponse.success(UserResponse.of(user));
+    }
+
+    @PutMapping("progress")
+    public ResponseEntity<?> progress(@RequestHeader("userId") Long userId) {
+        int progress = userService.missionProgress(userId);
+        return BaseResponse.success(progress);
     }
 }
