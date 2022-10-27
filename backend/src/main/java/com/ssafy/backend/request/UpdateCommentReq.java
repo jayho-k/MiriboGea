@@ -8,11 +8,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class CreateCommentReq {
+public class UpdateCommentReq {
 
     @NotNull
     private String content;
 
     @NotNull
     private LocalDateTime createdAt;
+
 }

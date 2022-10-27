@@ -1,18 +1,19 @@
 package com.ssafy.backend.request;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class CreateCommentReq {
+public class ReportArticleReq {
 
     @NotNull
     private String content;
 
     @NotNull
-    private LocalDateTime createdAt;
+    // unread, reportTrue, reportFalse
+    private String state;
 }
