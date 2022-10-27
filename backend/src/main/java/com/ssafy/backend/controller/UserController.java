@@ -10,13 +10,16 @@ import com.ssafy.backend.response.UserLoginResponse;
 import com.ssafy.backend.response.UserResponse;
 import com.ssafy.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/api/user")
+@Slf4j
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final KakaoApi kakaoApi;
@@ -82,5 +86,12 @@ public class UserController {
                 .jwt(token)
                 .user(UserResponse.of(userOptional.get()))
                 .build());
+    }
+
+    @GetMapping("/mypage")
+    public ResponseEntity<?> userInfo(@RequestHeader("userId") Long userId){
+        logger.debug("userId: {}", userId);
+        User user=userService.findOne(userId).orElseGet(()->new User());
+        return  BaseResponse.success(UserResponse.of(user));
     }
 }
