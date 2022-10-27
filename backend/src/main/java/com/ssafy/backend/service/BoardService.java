@@ -22,6 +22,8 @@ public interface BoardService {
 
     List<Board> getArticleListByCategory(String category);
 
+    List<Board> getArticleListByUserId(Long userId);
+
     Optional<UserBoardLike> getUserBoardLike(Long boardId, Long userId);
 
     void deleteArticleLike(Long userBoardLikeId);

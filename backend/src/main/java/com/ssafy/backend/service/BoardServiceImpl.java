@@ -67,6 +67,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public List<Board> getArticleListByUserId(Long userId) {
+        return boardRepository.findAll().stream().filter(v -> v.getUser().getId().equals(userId)).collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<UserBoardLike> getUserBoardLike(Long boardId, Long userId) {
         return userBoardLikeRepository.findAll().stream().filter(v -> v.getBoard().getId().equals(boardId) && v.getUser().getId().equals(userId)).findAny();
     }
