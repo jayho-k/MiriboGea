@@ -11,6 +11,7 @@ import com.ssafy.backend.request.CreateArticleReq;
 import com.ssafy.backend.request.CreateCommentReq;
 import com.ssafy.backend.request.UpdateCommentReq;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -61,13 +62,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Board> getArticleListByCategory(String category) {
-        return boardRepository.findAll().stream().filter(v -> v.getCategory().equals(category)).collect(Collectors.toList());
+    public List<Board> getArticleListByCategory(String category, Pageable pageable) {
+        return boardRepository.findAll(pageable).stream().filter(v -> v.getCategory().equals(category)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Board> getArticleListByUserId(Long userId) {
-        return boardRepository.findAll().stream().filter(v -> v.getUser().getId().equals(userId)).collect(Collectors.toList());
+    public List<Board> getArticleListByUserId(Long userId, Pageable pageable) {
+        return boardRepository.findAll(pageable).stream().filter(v -> v.getUser().getId().equals(userId)).collect(Collectors.toList());
     }
 
     @Override
