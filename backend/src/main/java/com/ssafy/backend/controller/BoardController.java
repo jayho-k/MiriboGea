@@ -1,5 +1,6 @@
 package com.ssafy.backend.controller;
 
+import com.ssafy.backend.common.auth.AppUserDetails;
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.UserBoardLike;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -58,13 +60,13 @@ public class BoardController {
     }
 
     @GetMapping("/myboard") // ex) http://localhost:8080/api/board/myboard?page=0
-    @ApiOperation(value = "내 게시글 전체조회", notes = "내가 쓴 게시글 리스트를 조회한다.")
+    @ApiOperation(value = "내 게시글 전체조회", notes = "토큰을 이용해 내가 쓴 게시글 리스트를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<ArticleListRes> getMyBoardList(@ApiIgnore @PageableDefault(size = 15) Pageable pageable) {
-        // user 인증방식으로 바꾸기
-        Long userId = 1L;
+    public ResponseEntity<ArticleListRes> getMyBoardList(@ApiIgnore Authentication authentication, @ApiIgnore @PageableDefault(size = 15) Pageable pageable) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
         List<Board> myBoardList = boardService.getArticleListByUserId(userId,pageable);
         return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", myBoardList));
     }
@@ -74,10 +76,9 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<? extends BaseResponseBody> createArticle(@RequestBody @Validated CreateArticleReq createArticleReq) {
-        // user 인증방식으로 바꾸기
-        Long userId = 1L;
-        User user = userService.getUserById(userId).get();
+    public ResponseEntity<? extends BaseResponseBody> createArticle(@ApiIgnore Authentication authentication, @RequestBody @Validated CreateArticleReq createArticleReq) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        User user = appUserDetails.getAppUser();
         boardService.createArticle(user, createArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
@@ -87,10 +88,10 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<? extends BaseResponseBody> updateArticle(@PathVariable Long boardId, @RequestBody Map<Object,Object> objectMap) {
+    public ResponseEntity<? extends BaseResponseBody> updateArticle(@ApiIgnore Authentication authentication, @PathVariable Long boardId, @RequestBody Map<Object,Object> objectMap) {
         Long writerId = boardService.getBoardById(boardId).get().getUser().getId();
-        // user 인증방식으로 바꾸기
-        Long userId = 1L;
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
         if (userId == writerId){
             boardService.updateArticle(boardId, objectMap);
             return ResponseEntity.status(200).body(BaseResponseBody.of(200,"success"));
@@ -103,10 +104,10 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<? extends BaseResponseBody> deleteArticle(@PathVariable Long boardId) {
+    public ResponseEntity<? extends BaseResponseBody> deleteArticle(@ApiIgnore Authentication authentication, @PathVariable Long boardId) {
         Long writerId = boardService.getBoardById(boardId).get().getUser().getId();
-        // user 인증방식으로 바꾸기
-        Long userId = 1L;
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
         if (userId == writerId) {
             boardService.deleteArticle(boardId);
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
@@ -120,9 +121,9 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<ArticleLikeRes> likeArticle(@PathVariable Long boardId) {
-        // user 인증방식으로 바꾸기
-        Long userId = 1L;
+    public ResponseEntity<ArticleLikeRes> likeArticle(@ApiIgnore Authentication authentication, @PathVariable Long boardId) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
         // Optional 로 받아오기
         Optional<UserBoardLike> userBoardLike = boardService.getUserBoardLike(boardId, userId);
         // 있으면 삭제 후 return 0
