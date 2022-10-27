@@ -7,6 +7,7 @@ import com.ssafy.backend.entity.UserBoardLike;
 import com.ssafy.backend.request.CreateArticleReq;
 import com.ssafy.backend.request.CreateCommentReq;
 import com.ssafy.backend.request.UpdateCommentReq;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,9 @@ public interface BoardService {
 
     void deleteArticle(Long boardId);
 
-    List<Board> getArticleListByCategory(String category);
+    List<Board> getArticleListByCategory(String category, Pageable pageable);
+
+    List<Board> getArticleListByUserId(Long userId, Pageable pageable);
 
     Optional<UserBoardLike> getUserBoardLike(Long boardId, Long userId);
 

@@ -17,9 +17,12 @@ import com.ssafy.backend.request.CreateArticleReq;
 import com.ssafy.backend.service.UserService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -34,13 +37,13 @@ public class BoardController {
     private final BoardService boardService;
     private final UserService userService;
 
-    @GetMapping("/{category}")
+    @GetMapping("/{category}") // ex) http://localhost:8080/api/board/freeBoard?page=0
     @ApiOperation(value = "게시글 전체조회", notes = "카테고리별 게시글 리스트를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<ArticleListRes> getArticleList(@PathVariable("category") String category) {
-        List<Board> articleList = boardService.getArticleListByCategory(category);
+    public ResponseEntity<ArticleListRes> getArticleList(@PathVariable("category") String category, @ApiIgnore @PageableDefault(size = 12) Pageable pageable) {
+        List<Board> articleList = boardService.getArticleListByCategory(category,pageable);
         return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", articleList));
     }
 
@@ -52,6 +55,18 @@ public class BoardController {
     public ResponseEntity<ArticleDetailRes> getArticleDetail(@PathVariable("boardId") Long boardId) {
         Board board = boardService.getBoardById(boardId).get();
         return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board));
+    }
+
+    @GetMapping("/myboard") // ex) http://localhost:8080/api/board/myboard?page=0
+    @ApiOperation(value = "내 게시글 전체조회", notes = "내가 쓴 게시글 리스트를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+    })
+    public ResponseEntity<ArticleListRes> getMyBoardList(@ApiIgnore @PageableDefault(size = 15) Pageable pageable) {
+        // user 인증방식으로 바꾸기
+        Long userId = 1L;
+        List<Board> myBoardList = boardService.getArticleListByUserId(userId,pageable);
+        return ResponseEntity.status(200).body(ArticleListRes.of(200, "success", myBoardList));
     }
 
     @PostMapping
@@ -122,10 +137,10 @@ public class BoardController {
     }
 
     @PostMapping("/comment/{board_id}")
-        public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
-            Optional<User> user = userService.getUserById(1L);
-            Optional<Board> board = boardService.getBoardById(board_id);
-            boardService.createComment(user.get(), board.get(), createCommentReq);
+    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
+        Optional<User> user = userService.getUserById(1L);
+        Optional<Board> board = boardService.getBoardById(board_id);
+        boardService.createComment(user.get(), board.get(), createCommentReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글작성이 완료되었습니다."));
     }
 

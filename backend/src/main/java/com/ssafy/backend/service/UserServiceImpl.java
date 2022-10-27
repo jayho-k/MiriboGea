@@ -6,6 +6,7 @@ import com.ssafy.backend.request.UserRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -27,5 +28,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findOne(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public int missionProgress(Long id) {
+        User user = userRepository.findById(id).orElseGet(() -> new User());
+        user.setMissionProgress(user.getMissionProgress()+1);
+        userRepository.save(user);
+        return user.getMissionProgress();
     }
 }
