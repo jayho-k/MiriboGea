@@ -45,9 +45,15 @@ public class ReportController {
     }
 
     @PutMapping("/check/{report_id}")
-    public ResponseEntity<? extends ReportCheckReq> CheckReport(@PathVariable Long report_id, @RequestBody @Validated ReportCheckReq ReportCheckReq) {
+    public ResponseEntity<? extends BaseResponseBody> CheckReport(@PathVariable Long report_id, @RequestBody @Validated ReportCheckReq reportCheckReq) {
+        Optional<User> user = userService.getUserById(1L);
+        Optional<Report> report = reportService.getReportById(report_id);
+        reportService.checkReport(user.get(),report.get(),reportCheckReq);
 
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
+
 
 
 }
