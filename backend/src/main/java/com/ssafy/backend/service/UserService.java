@@ -1,5 +1,6 @@
 package com.ssafy.backend.service;
 
+import com.ssafy.backend.common.util.scheduleJob.BannedJobData;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.request.UserRegisterRequest;
 
@@ -12,5 +13,7 @@ public interface UserService {
     Optional<User> getUserByEmail(String email);
     Optional<User> findOne(Long id);
     int missionProgress(Long id);
+
+    void release(BannedJobData jobData);
 
 }

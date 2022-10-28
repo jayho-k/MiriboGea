@@ -6,6 +6,7 @@ import com.ssafy.backend.entity.User;
 import com.ssafy.backend.entity.UserBoardLike;
 import com.ssafy.backend.request.CreateArticleReq;
 import com.ssafy.backend.request.CreateCommentReq;
+import com.ssafy.backend.request.ReportArticleReq;
 import com.ssafy.backend.request.UpdateCommentReq;
 import org.springframework.data.domain.Pageable;
 
@@ -42,4 +43,6 @@ public interface BoardService {
     Optional<Board> getBoardById(Long id);
 
     Optional<Comment> getCommentById(Long id);
+
+    void reportArticle(User user, Board board, ReportArticleReq reportArticleReq);
 }
