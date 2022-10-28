@@ -1,14 +1,13 @@
 package com.ssafy.backend.service;
 
-import com.ssafy.backend.entity.Board;
-import com.ssafy.backend.entity.Comment;
-import com.ssafy.backend.entity.User;
-import com.ssafy.backend.entity.UserBoardLike;
+import com.ssafy.backend.entity.*;
 import com.ssafy.backend.repository.BoardRepository;
+import com.ssafy.backend.repository.ReportRepository;
 import com.ssafy.backend.repository.UserBoardLikeRepository;
 import com.ssafy.backend.repository.CommentRepository;
 import com.ssafy.backend.request.CreateArticleReq;
 import com.ssafy.backend.request.CreateCommentReq;
+import com.ssafy.backend.request.ReportArticleReq;
 import com.ssafy.backend.request.UpdateCommentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +32,8 @@ public class BoardServiceImpl implements BoardService {
     private final CommentRepository commentRepository;
 
     private final UserBoardLikeRepository userBoardLikeRepository;
+
+    private final ReportRepository reportRepository;
 
     @Override
     public Board createArticle(User user, CreateArticleReq createArticleReq) {
@@ -108,7 +109,6 @@ public class BoardServiceImpl implements BoardService {
         comment.setCreatedAt(updatedAt);
         commentRepository.save(comment);
     }
-
     @Override
     public void deleteComment(Long comment_id) {
         commentRepository.deleteById(comment_id);
@@ -123,6 +123,15 @@ public class BoardServiceImpl implements BoardService {
                 .getId().equals(board_id)).collect(Collectors.toList());
     }
 
+    @Override
+    public void reportArticle(User user, Board board, ReportArticleReq reportArticleReq) {
+        Report report = new Report();
+        report.setReporter(user);
+        report.setBoard(board);
+        report.setContent(reportArticleReq.getContent());
+        report.setState("unread");
+        reportRepository.save(report);
+    }
     @Override
     public Optional<Board> getBoardById(Long id) {
         return boardRepository.findById(id);
