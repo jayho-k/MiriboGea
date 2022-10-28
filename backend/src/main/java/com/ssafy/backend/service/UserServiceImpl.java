@@ -1,5 +1,6 @@
 package com.ssafy.backend.service;
 
+import com.ssafy.backend.common.util.scheduleJob.BannedJobData;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.repository.UserRepository;
 import com.ssafy.backend.request.UserRegisterRequest;
@@ -41,5 +42,12 @@ public class UserServiceImpl implements UserService {
         user.setMissionProgress(user.getMissionProgress()+1);
         userRepository.save(user);
         return user.getMissionProgress();
+    }
+
+    @Override
+    public void release(BannedJobData jobData) {
+        User user = userRepository.findById(jobData.getUserId()).orElseGet(() -> new User());
+        user.setBanned(false);
+        userRepository.save(user);
     }
 }
