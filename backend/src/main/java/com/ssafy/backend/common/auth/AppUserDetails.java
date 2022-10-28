@@ -15,19 +15,29 @@ public class AppUserDetails implements UserDetails {
     boolean credentialNonExpired;
     boolean enabled = false;
     List<GrantedAuthority> roles = new ArrayList<>();
+    String role;
 
     public AppUserDetails(User appUser) {
         super();
         this.appUser = appUser;
     }
 
+    public String getRole() {
+        return this.role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public User getAppUser() {
         return this.appUser;
     }
+
     @Override
     public String getPassword() {
         return null;
     }
+
     @Override
     public String getUsername() {
         return this.appUser.getEmail();
@@ -36,26 +46,32 @@ public class AppUserDetails implements UserDetails {
     public Long getUserId() {
         return this.appUser.getId();
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return this.accountNonExpired;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return this.accountNonLocked;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return this.credentialNonExpired;
     }
+
     @Override
     public boolean isEnabled() {
         return this.enabled;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
     }
+
     public void setAuthorities(List<GrantedAuthority> roles) {
         this.roles = roles;
     }

@@ -1,7 +1,6 @@
 package com.ssafy.backend.response;
 
 import com.ssafy.backend.common.model.response.BaseResponseBody;
-import com.ssafy.backend.entity.Comment;
 import com.ssafy.backend.entity.Report;
 import lombok.Getter;
 import lombok.Setter;
