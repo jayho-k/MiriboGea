@@ -32,7 +32,7 @@ public class AdminController {
     public ResponseEntity<? extends GetReportRes> GetReport(Authentication authentication, @RequestParam("state") String state) {
         AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
         User user = appUserDetails.getAppUser();
-        List<Report> reportList = reportService.GetReport(user, state);
+        List<Report> reportList = reportService.getReport(user, state);
         return ResponseEntity.status(200).body(GetReportRes.of(reportList,200, "success"));
     }
 

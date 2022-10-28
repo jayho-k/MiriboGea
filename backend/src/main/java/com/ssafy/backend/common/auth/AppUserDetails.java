@@ -1,32 +1,28 @@
 package com.ssafy.backend.common.auth;
 
 import com.ssafy.backend.entity.User;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
+@ToString
 public class AppUserDetails implements UserDetails {
     User appUser;
     boolean accountNonExpired;
     boolean accountNonLocked;
     boolean credentialNonExpired;
     boolean enabled = false;
-    List<GrantedAuthority> roles = new ArrayList<>();
-    String role;
 
     public AppUserDetails(User appUser) {
         super();
         this.appUser = appUser;
-    }
-
-    public String getRole() {
-        return this.role;
-    }
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public User getAppUser() {
@@ -69,10 +65,15 @@ public class AppUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+
+        for(String role : this.appUser.getRole().split(",")){
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        log.info("role:{}",authorities.toString());
+        return authorities;
     }
 
-    public void setAuthorities(List<GrantedAuthority> roles) {
-        this.roles = roles;
-    }
+
 }
