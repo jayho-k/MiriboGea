@@ -23,7 +23,6 @@ public class AppUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> userOptional = userService.getUserByEmail(email);
-
         if(userOptional.isPresent()) {
             AppUserDetails appUserDetails = new AppUserDetails(userOptional.get());
             return appUserDetails;

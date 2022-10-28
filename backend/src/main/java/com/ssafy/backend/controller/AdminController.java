@@ -24,23 +24,18 @@ import java.util.Optional;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-    private final UserService userService;
     private final ReportService reportService;
 
 
     @GetMapping("/report")
-    public ResponseEntity<? extends GetReportRes> GetReport(Authentication authentication, @RequestParam("state") String state) {
-        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
-        User user = appUserDetails.getAppUser();
-        List<Report> reportList = reportService.getReport(user, state);
+    public ResponseEntity<? extends GetReportRes> GetReport(@RequestParam("state") String state) {
+        List<Report> reportList = reportService.getReport(state);
         return ResponseEntity.status(200).body(GetReportRes.of(reportList,200, "success"));
     }
-
     @PutMapping("/report/check/{report_id}")
     public ResponseEntity<? extends BaseResponseBody> CheckReport(@PathVariable Long report_id, @RequestBody @Validated ReportCheckReq reportCheckReq) {
-        Optional<User> user = userService.getUserById(1L);
         Optional<Report> report = reportService.getReportById(report_id);
-        reportService.checkReport(user.get(),report.get(),reportCheckReq);
+        reportService.checkReport(report.get(),reportCheckReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 
