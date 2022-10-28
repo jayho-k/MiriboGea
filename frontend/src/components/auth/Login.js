@@ -13,6 +13,7 @@ function Login() {
     console.log("code", code);
     UserAPI.kakaoLogin(code).then((response) => {
       console.log("response", response);
+      console.log("jwt", response.data.body.jwt);
 
       dispatch(setUserInfo(response.data.body.user));
       if (response.data.body.visited === true) {
@@ -25,12 +26,6 @@ function Login() {
       
     });
   });
-
-  // function logout() {
-  //   window.location.replace(
-  //     `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&logout_redirect_uri=${process.env.REACT_APP_KAKAO_LOGOUT_REDIRECT_URL}`
-  //   );
-  // }
 
   return <div>{/* <button onClick={logout}>로그아웃</button> */}</div>;
 }
