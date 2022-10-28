@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ReportService {
 
 
-    List<Report> GetReport(User user, String state);
+    List<Report> getReport(User user, String state);
 
     void checkReport(User user, Report report, ReportCheckReq reportCheckReq);
 

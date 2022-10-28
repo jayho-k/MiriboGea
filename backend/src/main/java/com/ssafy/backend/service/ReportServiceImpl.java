@@ -19,7 +19,7 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
 
     @Override
-    public List<Report> GetReport(User user, String state) {
+    public List<Report> getReport(User user, String state) {
         // 관리자 유저인지 확인해줘야함
         // state : unread,warning,notWarning
         return  reportRepository.findByState(state);
