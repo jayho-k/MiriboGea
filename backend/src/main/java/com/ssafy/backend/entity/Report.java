@@ -1,6 +1,7 @@
 package com.ssafy.backend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,14 +23,17 @@ public class Report {
 
     @CreatedDate
     private LocalDateTime createdAt;
+
     private String state;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User reporter;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="board_id")
+    @JsonIgnore
     private Board board;
 
 }
