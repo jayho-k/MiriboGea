@@ -11,7 +11,7 @@ public class UserResponse {
     private String email;
     private String nickname;
     private int missionProgress;
-    private boolean isAdmin;
+    private String role;
     private boolean isBanned;
 
     private String profileURL;
@@ -23,7 +23,7 @@ public class UserResponse {
                 .email(user.getEmail())
                 .nickname(user.getNickname())
                 .missionProgress(user.getMissionProgress())
-                .isAdmin(user.isAdmin())
+                .role(user.getRole())
                 .isBanned(user.isBanned())
                 .profileURL(user.getProfileURL())
                 .warningCount(user.getWarningCount())

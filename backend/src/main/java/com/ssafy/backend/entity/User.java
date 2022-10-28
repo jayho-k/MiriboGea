@@ -15,6 +15,7 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class User {
 
     @Id
@@ -24,7 +25,8 @@ public class User {
     private String email;
     private String nickname;
     private int missionProgress;
-    private boolean isAdmin;
+
+    private String role;
     private boolean isBanned;
 
     private String profileURL;
@@ -35,7 +37,7 @@ public class User {
                 .email(userRegisterRequest.getEmail())
                 .nickname(userRegisterRequest.getNickname())
                 .missionProgress(0)
-                .isAdmin(false)
+                .role("USER")
                 .isBanned(false)
                 .profileURL(userRegisterRequest.getProfileURL())
                 .warningCount(0)

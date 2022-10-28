@@ -13,7 +13,7 @@ public class ReportArticleReq {
     @NotNull
     private String content;
 
-    @NotNull
-    // unread, reportTrue, reportFalse
-    private String state;
+//    @NotNull
+//    // unread, warning, notWarning
+//    private String state;
 }

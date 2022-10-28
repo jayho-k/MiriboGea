@@ -4,6 +4,7 @@ import com.ssafy.backend.common.auth.AppUserDetails;
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.UserBoardLike;
+import com.ssafy.backend.request.ReportArticleReq;
 import com.ssafy.backend.response.ArticleDetailRes;
 import com.ssafy.backend.response.ArticleLikeRes;
 import com.ssafy.backend.response.ArticleListRes;
@@ -12,6 +13,7 @@ import com.ssafy.backend.request.CreateCommentReq;
 import com.ssafy.backend.request.UpdateCommentReq;
 import com.ssafy.backend.response.GetCommentRes;
 import com.ssafy.backend.service.BoardService;
+import com.ssafy.backend.service.ReportService;
 import io.swagger.annotations.ApiOperation;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.request.CreateArticleReq;
@@ -38,6 +40,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final UserService userService;
+    private final ReportService reportService;
 
     @GetMapping("/{category}") // ex) http://localhost:8080/api/board/freeBoard?page=0
     @ApiOperation(value = "게시글 전체조회", notes = "카테고리별 게시글 리스트를 조회한다.")
@@ -115,7 +118,6 @@ public class BoardController {
         throw new IllegalStateException("게시글 작성자가 아닙니다.");
     }
 
-
     @PostMapping("/like/{boardId}")
     @ApiOperation(value = "게시글 좋아요", notes = "토큰을 이용해 유저가 게시글에 좋아요 혹은 좋아요 취소를 한다.")
     @ApiResponses({
@@ -164,4 +166,13 @@ public class BoardController {
         boardService.deleteComment(comment_id);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
+    @PostMapping("/report")
+    public ResponseEntity<? extends BaseResponseBody> ReportArticle(@RequestParam Long board_id, @RequestBody @Validated ReportArticleReq reportArticleReq) {
+        System.out.println("@@@@@@@@@@@@"+board_id);
+        Optional<User> user = userService.getUserById(1L);
+        Optional<Board> board = boardService.getBoardById(board_id);
+        boardService.reportArticle(user.get(),board.get(), reportArticleReq);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+    }
+
 }
