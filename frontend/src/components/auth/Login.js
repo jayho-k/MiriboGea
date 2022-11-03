@@ -13,7 +13,8 @@ function Login() {
     console.log("code", code);
     UserAPI.kakaoLogin(code).then((response) => {
       console.log("response", response);
-      console.log("jwt", response.data.body.jwt);
+
+      localStorage.setItem('token', response.data.body.jwt);
 
       dispatch(setUserInfo(response.data.body.user));
       if (response.data.body.visited === true) {
