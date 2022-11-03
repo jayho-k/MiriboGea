@@ -1,8 +1,5 @@
 package com.ssafy.backend.entity;
 
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;

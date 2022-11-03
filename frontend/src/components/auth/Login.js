@@ -13,7 +13,7 @@ function Login() {
     console.log("code", code);
     UserAPI.kakaoLogin(code).then((response) => {
       console.log("response", response);
-
+      localStorage.setItem('token', response.data.body.jwt);
       dispatch(setUserInfo(response.data.body.user));
       if (response.data.body.visited === true) {
         // 회원가입한 유저인 경우 정보 저장

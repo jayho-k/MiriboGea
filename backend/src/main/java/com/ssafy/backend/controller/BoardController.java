@@ -36,6 +36,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
+@CrossOrigin("*")
 public class BoardController {
 
     private final BoardService boardService;

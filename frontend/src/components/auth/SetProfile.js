@@ -34,7 +34,6 @@ function SetProfile() {
     }
   };
   const join = () => {
-    console.log("asdf")
     const body = {
       email: user.email,
       nickname: nickname,
