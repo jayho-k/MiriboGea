@@ -1,5 +1,8 @@
 import React from "react";
-
+import style from "../css/Auth.module.css";
+import logindog from "../../asset/img/logindog.png";
+import kakaologin from "../../asset/img/kakaologin.png";
+import NavBar from "../Navbar";
 
 function login() {
   window.location.replace(
@@ -9,8 +12,12 @@ function login() {
 
 function Auth() {
   return (
-    <div>
-      <button onClick={login}>login</button>
+    <div className={style.mainBackground}>
+      <NavBar/>
+      <div className={style.login}>
+        <img className={style.logindog} src={logindog} alt=""/>
+        <img className={style.kakaologin} onClick={login} src={kakaologin} alt=""/>
+      </div>
     </div>
   );
 }

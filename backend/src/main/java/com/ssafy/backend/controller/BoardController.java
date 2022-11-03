@@ -4,6 +4,7 @@ import com.ssafy.backend.common.auth.AppUserDetails;
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.UserBoardLike;
+import com.ssafy.backend.repository.CommentRepository;
 import com.ssafy.backend.request.ReportArticleReq;
 import com.ssafy.backend.response.ArticleDetailRes;
 import com.ssafy.backend.response.ArticleLikeRes;
@@ -141,10 +142,11 @@ public class BoardController {
     }
 
     @PostMapping("/comment/{board_id}")
-    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
-        Optional<User> user = userService.getUserById(1L);
+    public ResponseEntity<? extends BaseResponseBody> createComment(Authentication authentication, @PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        User user = appUserDetails.getAppUser();
         Optional<Board> board = boardService.getBoardById(board_id);
-        boardService.createComment(user.get(), board.get(), createCommentReq);
+        boardService.createComment(user, board.get(), createCommentReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글작성이 완료되었습니다."));
     }
 
@@ -155,24 +157,34 @@ public class BoardController {
     }
 
     @PutMapping("/comment/{comment_id}")
-    public ResponseEntity<? extends BaseResponseBody> updateComment(@PathVariable Long comment_id, @RequestBody @Validated UpdateCommentReq updateCommentReq) {
-//        Optional<User> user = userService.getUserById(1L);
+    public ResponseEntity<? extends BaseResponseBody> updateComment(Authentication authentication,@PathVariable Long comment_id, @RequestBody @Validated UpdateCommentReq updateCommentReq) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        User user = appUserDetails.getAppUser();
         Optional<Comment> comment = boardService.getCommentById(comment_id);
-        boardService.updateComment(comment.get(), updateCommentReq);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+        if (comment.get().getUser().getId().equals(user.getId())) {
+            boardService.updateComment(comment.get(), updateCommentReq);
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+        }
+        throw new IllegalStateException("댓글 작성자가 아닙니다.");
     }
 
     @DeleteMapping("/comment/{comment_id}")
-    public ResponseEntity<? extends BaseResponseBody> deleteComment(@PathVariable Long comment_id) {
-        boardService.deleteComment(comment_id);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+    public ResponseEntity<? extends BaseResponseBody> deleteComment(Authentication authentication, @PathVariable Long comment_id) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        User user = appUserDetails.getAppUser();
+        Optional<Comment> comment = boardService.getCommentById(comment_id);
+        if (comment.get().getUser().getId().equals(user.getId())) {
+            boardService.deleteComment(comment_id);
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+        }
+        throw new IllegalStateException("댓글 작성자가 아닙니다.");
     }
     @PostMapping("/report")
-    public ResponseEntity<? extends BaseResponseBody> ReportArticle(@RequestParam Long board_id, @RequestBody @Validated ReportArticleReq reportArticleReq) {
-        System.out.println("@@@@@@@@@@@@"+board_id);
-        Optional<User> user = userService.getUserById(1L);
+    public ResponseEntity<? extends BaseResponseBody> ReportArticle(Authentication authentication, @RequestParam Long board_id, @RequestBody @Validated ReportArticleReq reportArticleReq) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        User user = appUserDetails.getAppUser();
         Optional<Board> board = boardService.getBoardById(board_id);
-        boardService.reportArticle(user.get(),board.get(), reportArticleReq);
+        boardService.reportArticle(user,board.get(), reportArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 

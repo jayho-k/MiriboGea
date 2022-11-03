@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 
 
@@ -117,10 +118,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Comment> getComment(Long board_id) {
         // board 아이디 찾으면 되는 것
-        List<Comment> allOfComments = commentRepository.findAll();
-        return allOfComments.stream()
-                .filter(comment -> comment.getBoard()
-                .getId().equals(board_id)).collect(Collectors.toList());
+        return commentRepository.findByBoardId(board_id);
     }
 
     @Override
@@ -141,6 +139,8 @@ public class BoardServiceImpl implements BoardService {
     public Optional<Comment> getCommentById(Long id) {
         return commentRepository.findById(id);
     }
+
+
 
 
 }

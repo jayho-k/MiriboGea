@@ -26,14 +26,12 @@ public class Report {
 
     private String state;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_id")
     private User reporter;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="board_id")
     @JsonIgnore
     private Board board;
-
 }

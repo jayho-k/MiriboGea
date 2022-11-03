@@ -13,7 +13,9 @@ function Login() {
     console.log("code", code);
     UserAPI.kakaoLogin(code).then((response) => {
       console.log("response", response);
+
       localStorage.setItem('token', response.data.body.jwt);
+
       dispatch(setUserInfo(response.data.body.user));
       if (response.data.body.visited === true) {
         // 회원가입한 유저인 경우 정보 저장
@@ -25,12 +27,6 @@ function Login() {
       
     });
   });
-
-  // function logout() {
-  //   window.location.replace(
-  //     `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&logout_redirect_uri=${process.env.REACT_APP_KAKAO_LOGOUT_REDIRECT_URL}`
-  //   );
-  // }
 
   return <div>{/* <button onClick={logout}>로그아웃</button> */}</div>;
 }
