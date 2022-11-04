@@ -97,7 +97,6 @@ public class BoardServiceImpl implements BoardService {
         comment.setUser(user);
         comment.setBoard(board);
         comment.setContent(createCommentReq.getContent());
-        comment.setCreatedAt(createCommentReq.getCreatedAt());
         return commentRepository.save(comment);
     }
 
