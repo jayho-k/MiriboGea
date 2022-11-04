@@ -1,19 +1,22 @@
-import axios from "axios";
+import Axios from "axios";
 
 const token=window.localStorage.getItem("token")
 const base = {
   baseUrl: process.env.REACT_APP_API_SERVER_BASE_URL,
-  headers: {
-    "Content-type": "application/json",
-    "Authorization":`Bearer ${token}`,
-
-  },
+  
 };
+const axios = Axios.create({
+  headers: {
+    // "Content-type": "application/json",
+    "Authorization":`Bearer ${token}`,
+  },
+})
+
 
 class BoardAPI {
   
   allBoard(category) {
-    return axios.get(`${base.baseUrl}/board/${category}`);
+    return axios.get(`${base.baseUrl}/board/${category}`,);
   }
 
   getBoardDetail(boardId) {
@@ -41,21 +44,21 @@ class BoardAPI {
     // console.log("body", body);
     return axios.post(`${base.baseUrl}/board/like/${boardId}`);
   }
-  createComment(commentId) {
+  createComment(boardId,body) {
     // console.log("body", body);
-    return axios.post(`${base.baseUrl}/board/comment/${commentId}`);
+    return axios.post(`${base.baseUrl}/board/comment/${boardId}`,body);
   }
-  getComment(commentId) {
+  getComment(boardId) {
     // console.log("body", body);
-    return axios.get(`${base.baseUrl}/board/comment/${commentId}`);
+    return axios.get(`${base.baseUrl}/board/comment/${boardId}`);
   }
-  updateComment(commentId,body) {
+  updateComment(boardId,commentId,body) {
     // console.log("body", body);
-    return axios.put(`${base.baseUrl}/board/comment/${commentId}`,body);
+    return axios.put(`${base.baseUrl}/board/comment/${boardId}/${commentId}`,body);
   }
-  deleteComment(commentId) {
+  deleteComment(boardId,commentId) {
     // console.log("body", body);
-    return axios.delete(`${base.baseUrl}/board/comment/${commentId}`);
+    return axios.delete(`${base.baseUrl}/board/comment/${boardId}/${commentId}`);
   }
   report(body) {
     // console.log("body", body);
