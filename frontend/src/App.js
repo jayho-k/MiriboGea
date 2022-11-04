@@ -25,7 +25,7 @@ function App() {
         <Route path="/setprofile" element={<SetProfile />} />
 
         <Route path="/board/:category" element={<BoardList />} />
-        <Route path="/board/:id" element={<BoardDetail />} />
+        <Route path="/board/detail/:boardId" element={<BoardDetail />} />
         <Route path="/create-board" element={<CreateBoard />} />
       </Routes>
     </div>
