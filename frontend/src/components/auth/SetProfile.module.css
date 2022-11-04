@@ -1,39 +1,61 @@
+.setProfileBox{
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(178.81deg, #FFFDD4 11.07%, #D8EFDF 57.35%, rgba(88, 204, 231, 0.87) 126.32%);
+  background-size: 160% 160%;
+  -webkit-animation: gradient 8s ease infinite;
+  animation: gradient 8s ease infinite;
+  overflow: scroll;
+}
+@keyframes gradient {
+  0% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+  100% { background-position: 50% 0%; }
+}
+@-webkit-keyframes gradient {
+  0% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+  100% { background-position: 50% 0%; }
+}
+.box{
+  position: relative;
+  width: 1000px;
+  left: 350px;
+  top: 20px;
+}
 .title {
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
+  width: 800px;
 }
 
 .photoBox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 16px;
-}
-
-.photo {
-  height: 100px;
-  width: 100px;
-}
-.circle {
-  height: 100px;
-  width: 100px;
+  position: absolute;
+  top: 160px;
+  left: 275px;
 }
 
 .inputBox {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  padding: 16px;
+  position: absolute;
+  bottom: 62px;
+  left: 275px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .inputTag {
-  border-bottom: solid 1px #e5e6ff;
+  height: 30px;
+  font-size: 20px;
+  font-family: "mapleLight";
+  letter-spacing: 2px;
 }
 
 .checkMsg {
   display: flex;
   justify-content: center;
   padding-bottom: 16px;
+}
+.ok {
+  margin-left:40px;
+  width: 60px;
+  /* height: 30px; */
 }
