@@ -7,12 +7,12 @@ function BoardDetail(){
   const [boardInfo,setBoardInfo]=useState()
   const [commentList,setCommentList]=useState([])
   const [comment,setComment]=useState()
-
+  const [likeState,setLikeState]=useState()
   useEffect(() => {
     async function load() {
       const detailResponse=await BoardAPI.getBoardDetail(boardId)
       const info=detailResponse.data.board
-      console.log(info)
+      setLikeState(detailResponse.data.likeState)
       setBoardInfo(info)
 
       const commentListResponse=await BoardAPI.getComment(boardId)
@@ -33,6 +33,7 @@ function BoardDetail(){
   }
   async function likeBoard(){
     const result=await BoardAPI.likeBoard(boardId)
+    setLikeState(result.data.state)
     console.log(result)
     
   }
@@ -44,7 +45,10 @@ function BoardDetail(){
         <p>content:{boardInfo.content}</p>
         <p>category:{boardInfo.category}</p>
   
-        <button onClick={()=>likeBoard()}>좋아요</button>
+        <button onClick={()=>likeBoard()}>
+          {
+            likeState?"안좋아요":"좋아요"
+          }</button>
         <p >댓글입력:</p>
         <input
             onChange={(e) => {

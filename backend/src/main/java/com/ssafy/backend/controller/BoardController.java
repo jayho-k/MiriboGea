@@ -59,9 +59,15 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<ArticleDetailRes> getArticleDetail(@PathVariable("boardId") Long boardId) {
+    public ResponseEntity<ArticleDetailRes> getArticleDetail(@ApiIgnore Authentication authentication,@PathVariable("boardId") Long boardId) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
         Board board = boardService.getBoardById(boardId).get();
-        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board));
+        Optional<UserBoardLike> userBoardLike = boardService.getUserBoardLike(boardId, userId);
+        // 있으면 삭제 후 return 0
+        boolean likeState=userBoardLike.isPresent();
+        
+        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board,likeState));
     }
 
     @GetMapping("/myboard") // ex) http://localhost:8080/api/board/myboard?page=0
