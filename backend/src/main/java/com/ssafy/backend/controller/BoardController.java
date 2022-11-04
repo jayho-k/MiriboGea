@@ -142,12 +142,13 @@ public class BoardController {
     }
 
     @PostMapping("/comment/{board_id}")
-    public ResponseEntity<? extends BaseResponseBody> createComment(Authentication authentication, @PathVariable Long board_id, @RequestBody @Validated CreateCommentReq createCommentReq) {
+    public ResponseEntity<? extends BaseResponseBody> createComment(Authentication authentication, @PathVariable Long board_id, @RequestBody CreateCommentReq createCommentReq) {
         AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
         User user = appUserDetails.getAppUser();
         Optional<Board> board = boardService.getBoardById(board_id);
         boardService.createComment(user, board.get(), createCommentReq);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글작성이 완료되었습니다."));
+        List<Comment> commentList = boardService.getComment(board_id);
+        return ResponseEntity.status(200).body(GetCommentRes.of(commentList, 200, "댓글작성이 완료되었습니다."));
     }
 
     @GetMapping("/comment/{board_id}")
@@ -156,26 +157,28 @@ public class BoardController {
         return ResponseEntity.status(200).body(GetCommentRes.of(commentList, 200, "success"));
     }
 
-    @PutMapping("/comment/{comment_id}")
-    public ResponseEntity<? extends BaseResponseBody> updateComment(Authentication authentication,@PathVariable Long comment_id, @RequestBody @Validated UpdateCommentReq updateCommentReq) {
+    @PutMapping("/comment/{board_id}/{comment_id}")
+    public ResponseEntity<? extends BaseResponseBody> updateComment(Authentication authentication,@PathVariable Long board_id,@PathVariable Long comment_id, @RequestBody @Validated UpdateCommentReq updateCommentReq) {
         AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
         User user = appUserDetails.getAppUser();
         Optional<Comment> comment = boardService.getCommentById(comment_id);
         if (comment.get().getUser().getId().equals(user.getId())) {
             boardService.updateComment(comment.get(), updateCommentReq);
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+            List<Comment> commentList = boardService.getComment(board_id);
+            return ResponseEntity.status(200).body(GetCommentRes.of(commentList, 200, "success"));
         }
         throw new IllegalStateException("댓글 작성자가 아닙니다.");
     }
 
-    @DeleteMapping("/comment/{comment_id}")
-    public ResponseEntity<? extends BaseResponseBody> deleteComment(Authentication authentication, @PathVariable Long comment_id) {
+    @DeleteMapping("/comment/{board_id}/{comment_id}")
+    public ResponseEntity<? extends BaseResponseBody> deleteComment(Authentication authentication,@PathVariable Long board_id, @PathVariable Long comment_id) {
         AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
         User user = appUserDetails.getAppUser();
         Optional<Comment> comment = boardService.getCommentById(comment_id);
         if (comment.get().getUser().getId().equals(user.getId())) {
             boardService.deleteComment(comment_id);
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+            List<Comment> commentList = boardService.getComment(board_id);
+            return ResponseEntity.status(200).body(GetCommentRes.of(commentList, 200, "success"));
         }
         throw new IllegalStateException("댓글 작성자가 아닙니다.");
     }

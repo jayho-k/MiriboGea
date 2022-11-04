@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CreateCommentReq {
-
     @NotNull
     private String content;
-
-    @NotNull
-    private LocalDateTime createdAt;
 }
