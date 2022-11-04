@@ -1,15 +1,14 @@
 import axios from "axios";
 
-
+const token=window.localStorage.getItem("token")
 const base = {
   baseUrl: process.env.REACT_APP_API_SERVER_BASE_URL,
   headers: {
     "Content-type": "application/json",
+    "Authorization":`Bearer ${token}`,
+
   },
 };
-
-const token=window.localStorage.getItem("token")
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
 class BoardAPI {
   
