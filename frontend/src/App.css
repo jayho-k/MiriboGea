@@ -1,0 +1,11 @@
+@font-face{
+  font-family: "mapleLight";
+  src:url("./asset/font/Maplestory\ Light.ttf")
+}
+@font-face{
+  font-family: "mapleBold";
+  src:url("./asset/font/Maplestory\ Bold.ttf")
+}
+p {
+  cursor: default;
+}
