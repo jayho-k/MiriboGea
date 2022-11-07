@@ -19,7 +19,7 @@ function NavBar(){
     <div className={style.nav}>
       <img onClick={goToMain} className={style.logo} src={Logo} alt=""/>
       { location.pathname === "/" && token === "" ? 
-        <div style={{padding:'40px'}}>
+        <div >
         <div className={style.login} onClick={goToLogin}>
           <p className={style.text}>Login</p>
         </div>

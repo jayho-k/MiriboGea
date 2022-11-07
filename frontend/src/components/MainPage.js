@@ -7,6 +7,7 @@ import NavBar from "./Navbar";
 import style from "./css/Mainpage.module.css";
 import main from "../asset/img/main.png";
 import intro from "../asset/img/intro.png";
+import Menu from "./Menu";
 
 function MainPage(){
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function MainPage(){
           <img style={{width:'184px'}} src={intro} alt=""/>
         </div>
       </section>
+      <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/>
     </div>
   )
 }
