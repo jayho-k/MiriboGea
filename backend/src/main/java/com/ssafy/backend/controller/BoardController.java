@@ -6,13 +6,10 @@ import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.UserBoardLike;
 import com.ssafy.backend.repository.CommentRepository;
 import com.ssafy.backend.request.ReportArticleReq;
-import com.ssafy.backend.response.ArticleDetailRes;
-import com.ssafy.backend.response.ArticleLikeRes;
-import com.ssafy.backend.response.ArticleListRes;
+import com.ssafy.backend.response.*;
 import com.ssafy.backend.entity.Comment;
 import com.ssafy.backend.request.CreateCommentReq;
 import com.ssafy.backend.request.UpdateCommentReq;
-import com.ssafy.backend.response.GetCommentRes;
 import com.ssafy.backend.service.BoardService;
 import com.ssafy.backend.service.ReportService;
 import io.swagger.annotations.ApiOperation;
@@ -197,4 +194,11 @@ public class BoardController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 
+    @GetMapping("/check/{category}")
+    public ResponseEntity<CheckArticleRes> CheckArticle(Authentication authentication, @PathVariable String category){
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
+        boolean checked = boardService.checkArticleExistence(userId, category);
+        return ResponseEntity.status(200).body(CheckArticleRes.of(200, "success", checked));
+    }
 }

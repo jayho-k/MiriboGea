@@ -129,6 +129,18 @@ public class BoardServiceImpl implements BoardService {
         report.setState("unread");
         reportRepository.save(report);
     }
+
+    @Override
+    public boolean checkArticleExistence(Long userId, String category) {
+        List<Board> boardList = boardRepository.findByUserId(userId);
+        for (Board board : boardList){
+            if (board.getCategory().equals(category)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public Optional<Board> getBoardById(Long id) {
         return boardRepository.findById(id);
@@ -138,7 +150,6 @@ public class BoardServiceImpl implements BoardService {
     public Optional<Comment> getCommentById(Long id) {
         return commentRepository.findById(id);
     }
-
 
 
 

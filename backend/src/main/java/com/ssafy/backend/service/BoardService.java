@@ -45,4 +45,6 @@ public interface BoardService {
     Optional<Comment> getCommentById(Long id);
 
     void reportArticle(User user, Board board, ReportArticleReq reportArticleReq);
+
+    boolean checkArticleExistence(Long userId, String category);
 }
