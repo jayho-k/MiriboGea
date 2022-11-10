@@ -8,8 +8,81 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../app/redux/userSlice";
 import NavBar from "../Navbar";
 
-function SetProfile() {
+function Modal({ onClose }) {
+  function handleClose() {
+    onClose?.();
+  }
   const navigate = useNavigate();
+  const goToMain = () => {
+    navigate('/')
+  }
+  const user = useSelector(selectUser);
+
+  return (
+    <div>
+      {user === "" ?
+      <div className={styles.Modal} onClick={handleClose}>
+        <div className={styles.ModalBody} onClick={(e) => e.stopPropagation()}>
+          <div>
+            <svg
+              className={styles.modalCloseBtn}
+              onClick={handleClose}
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="24" height="24" rx="12" fill="#E5E5E5" />
+              <path
+                d="M12 10.8891L15.8891 7L17 8.11094L13.1109 12L17 15.8891L15.8891 17L12 13.1109L8.11094 17L7 15.8891L10.8891 12L7 8.11094L8.11094 7L12 10.8891Z"
+                fill="#4F4F4F"
+              />
+            </svg>
+          </div>
+          <div style={{ position: "absolute", left: "32px", top: "72px" }}>
+            <p className={styles.ModalText}>다른 닉네임을 사용해주세요!</p>
+          </div>
+        </div>
+      </div> : 
+      <div className={styles.Modal} onClick={handleClose}>
+      <div className={styles.LOModalBody} onClick={(e) => e.stopPropagation()}>
+        <div>
+          <svg
+            className={styles.modalCloseBtn}
+            onClick={handleClose}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="24" height="24" rx="12" fill="#E5E5E5" />
+            <path
+              d="M12 10.8891L15.8891 7L17 8.11094L13.1109 12L17 15.8891L15.8891 17L12 13.1109L8.11094 17L7 15.8891L10.8891 12L7 8.11094L8.11094 7L12 10.8891Z"
+              fill="#4F4F4F"
+            />
+          </svg>
+        </div>
+        <div style={{ position: "absolute", left: "32px", top: "88px" }}>
+          <p className={styles.ModalText}>
+           어서오세요! 반갑습니다!
+          </p>
+        </div>
+        <div className={styles.buttonBox}>
+          <button className={styles.NextButton} onClick={goToMain}>
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>}
+    </div>
+    
+  );
+}
+
+function SetProfile() {
+
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const fileImage = user.profileURL;
@@ -48,6 +121,10 @@ function SetProfile() {
     });
     
   };
+  const [openModal, setOpenModal] = useState(false);
+  const showModal = () => {
+    setOpenModal(true);
+  };
 
   return (
     <div className={styles.setProfileBox}>
@@ -69,11 +146,12 @@ function SetProfile() {
             name="nickname"
             type="text"
             placeholder="닉네임을 입력해주세요."
+            maxLength={8}
             value={nickname}
             onChange={handleChange}
           />
           <div>
-            <img className={styles.ok} onClick={join} disabled={false} src={ok} alt=""/>
+            <img className={styles.ok} onClick={()=>{join();showModal();}} disabled={false} src={ok} alt=""/>
           </div>
         </div>
 
@@ -81,6 +159,14 @@ function SetProfile() {
         <span>{checkMsg}</span>
       </div> */}
       </div>
+      {openModal && (
+          <Modal
+            open={openModal}
+            onClose={() => {
+              setOpenModal(false);
+            }}
+          />
+        )}
     </div>
   );
 }

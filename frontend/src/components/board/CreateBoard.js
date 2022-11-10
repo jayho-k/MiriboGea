@@ -4,7 +4,13 @@ import { useSelector } from "react-redux";
 import BoardAPI from "../../api/BoardAPI";
 
 function CreateBoard(){
-
+  const options = [
+    {value: '', text: '--주제를 선택하세요.--'},
+    {value: 'dog', text: '내 강아지 자랑하기'},
+    {value: 'mission', text: '미션3 주인찾아주기'},
+  ];
+  const [selected, setSelected] = useState(options[0].value);
+  
   const [boardInfo, setBoardInfo] = useState();
   function setTitle(title){
     setBoardInfo({
@@ -22,7 +28,8 @@ function CreateBoard(){
     setBoardInfo({
       ...boardInfo,
       category:category
-    })
+    });
+    setSelected(category);
   }
   function setPicURL(picURL){
     setBoardInfo({
@@ -49,11 +56,21 @@ function CreateBoard(){
           }}
         />
       <p >category:</p>
-      <input
-          onChange={(e) => {
+      <select value={selected} onChange={(e) => {
             setCategory(e.target.value);
-          }}
-        />
+          }}>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.text}
+          </option>
+        ))}
+      </select>
+      {/* <select onChange={(e) => {
+            setCategory(e.target.value);
+          }}>
+        <option value="dog">내 강아지 자랑하기</option>
+        <option value="mission">미션3 주인찾아주기</option>
+      </select> */}
       <p >picURL:</p>
       <input
           onChange={(e) => {
