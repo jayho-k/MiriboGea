@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, {  useState,useRef } from "react";
+import { uploadImageFile } from "../../plugins/s3upload";
 import BoardAPI from "../../api/BoardAPI";
 
 function CreateBoard(){
@@ -10,7 +9,19 @@ function CreateBoard(){
     {value: 'mission', text: '미션3 주인찾아주기'},
   ];
   const [selected, setSelected] = useState(options[0].value);
-  
+
+  const photoInput = useRef();
+  const handleClick = () => {
+    photoInput.current.click();
+  };
+
+  const [fileImage, setFileImage] = useState();
+  const [uploadImage, setUploadImage] = useState();
+
+  const saveFileImage = (e) => {
+    setFileImage(URL.createObjectURL(e.target.files[0]));
+    setUploadImage(e.target.files[0]);
+  };
   const [boardInfo, setBoardInfo] = useState();
   function setTitle(title){
     setBoardInfo({
@@ -38,6 +49,10 @@ function CreateBoard(){
     })
   }
   async function boardWrite(){
+    const picURL=await uploadImageFile(uploadImage)
+    console.log(picURL)
+    setPicURL(picURL)
+    console.log(boardInfo)
     const result=await BoardAPI.createBoard(boardInfo)
     console.log(result)
   }
@@ -72,10 +87,19 @@ function CreateBoard(){
         <option value="mission">미션3 주인찾아주기</option>
       </select> */}
       <p >picURL:</p>
-      <input
-          onChange={(e) => {
-            setPicURL(e.target.value);
-          }}
+      <img
+          onClick={handleClick}
+          style={{ width: "80px", height: "80px", borderRadius: "100px" }}
+          src={fileImage}
+          alt="sample"
+        />
+        <input
+          type="file"
+          name="imgUpload"
+          accept="image/*"
+          onChange={saveFileImage}
+          style={{ display: "none" }}
+          ref={photoInput}
         />
       <button onClick={()=>boardWrite()}>
         create

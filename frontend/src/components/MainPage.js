@@ -1,6 +1,6 @@
-import UserAPI from "../api/UserAPI";
-import { useState, useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
+// import UserAPI from "../api/UserAPI";
+// import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../app/redux/userSlice";
 import NavBar from "./Navbar";
@@ -10,12 +10,12 @@ import intro from "../asset/img/intro.png";
 import Menu from "./Menu";
 
 function MainPage(){
+
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const goToUnity = () => {
     navigate("/Save_The_Dogs");
   };
-
   return (
     <div className={style.mainBackground}>
       <NavBar/>
@@ -26,7 +26,7 @@ function MainPage(){
           <img style={{width:'184px'}} src={intro} alt=""/>
         </div>
       </section>
-      <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/>
+      {/* <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/> */}
     </div>
   )
 }

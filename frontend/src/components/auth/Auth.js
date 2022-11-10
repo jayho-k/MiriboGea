@@ -15,7 +15,7 @@ function Auth() {
   return (
     <div className={style.mainBackground}>
       <NavBar/>
-      <Menu/>
+      {/* <Menu/> */}
       <img className={style.logindog} src={logindog} alt=""/>
       <img className={style.kakaologin} onClick={login} src={kakaologin} alt=""/>
     </div>

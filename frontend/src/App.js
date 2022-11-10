@@ -13,6 +13,7 @@ import SaveTheDogs from './components/SaveTheDogs';
 import PublicRoute from './components/route/publicRoute';
 import PrivateRoute from './components/route/privateRoute';
 import UnityRoute from './components/route/unityRoute';
+import World from './components/world/World';
 import './App.css';
 
 
@@ -71,9 +72,13 @@ function App() {
                  <CreateBoard />
                </PrivateRoute>
                } />
+        <Route path="/world" element={<World />} />
+
       </Routes>
     </div>
   );
 }
 
 export default App;
+
+

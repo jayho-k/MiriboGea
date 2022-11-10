@@ -4,7 +4,7 @@ import com.ssafy.backend.common.auth.AppUserDetails;
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.UserBoardLike;
-import com.ssafy.backend.repository.CommentRepository;
+
 import com.ssafy.backend.request.ReportArticleReq;
 import com.ssafy.backend.response.ArticleDetailRes;
 import com.ssafy.backend.response.ArticleLikeRes;
@@ -59,9 +59,16 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<ArticleDetailRes> getArticleDetail(@PathVariable("boardId") Long boardId) {
+    public ResponseEntity<ArticleDetailRes> getArticleDetail(@ApiIgnore Authentication authentication,@PathVariable("boardId") Long boardId) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
         Board board = boardService.getBoardById(boardId).get();
-        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board));
+        Optional<UserBoardLike> userBoardLike = boardService.getUserBoardLike(boardId, userId);
+        // 있으면 삭제 후 return 0
+        boolean likeState=userBoardLike.isPresent();
+
+        Long likeCount = boardService.getBoardLikeCount(board);
+        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board,likeState,likeCount));
     }
 
     @GetMapping("/myboard") // ex) http://localhost:8080/api/board/myboard?page=0
@@ -190,5 +197,6 @@ public class BoardController {
         boardService.reportArticle(user,board.get(), reportArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
+
 
 }
