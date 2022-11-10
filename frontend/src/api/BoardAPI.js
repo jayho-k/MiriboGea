@@ -1,22 +1,19 @@
 import Axios from "axios";
 
-const token=window.localStorage.getItem("token")
+const token = window.localStorage.getItem("token");
 const base = {
   baseUrl: process.env.REACT_APP_API_SERVER_BASE_URL,
-  
 };
 const axios = Axios.create({
   headers: {
     // "Content-type": "application/json",
-    "Authorization":`Bearer ${token}`,
+    Authorization: `Bearer ${token}`,
   },
-})
-
+});
 
 class BoardAPI {
-  
   allBoard(category) {
-    return axios.get(`${base.baseUrl}/board/${category}`,);
+    return axios.get(`${base.baseUrl}/board/${category}`);
   }
 
   getBoardDetail(boardId) {
@@ -29,11 +26,11 @@ class BoardAPI {
   }
   createBoard(body) {
     // console.log("body", body);
-    return axios.post(`${base.baseUrl}/board`,body);
+    return axios.post(`${base.baseUrl}/board`, body);
   }
-  updateBoard(boardId,body) {
+  updateBoard(boardId, body) {
     // console.log("body", body);
-    return axios.patch(`${base.baseUrl}/board/detail/${boardId}`,body);
+    return axios.patch(`${base.baseUrl}/board/detail/${boardId}`, body);
   }
   deleteBoard(boardId) {
     // console.log("body", body);
@@ -44,25 +41,34 @@ class BoardAPI {
     // console.log("body", body);
     return axios.post(`${base.baseUrl}/board/like/${boardId}`);
   }
-  createComment(boardId,body) {
+  createComment(boardId, body) {
     // console.log("body", body);
-    return axios.post(`${base.baseUrl}/board/comment/${boardId}`,body);
+    return axios.post(`${base.baseUrl}/board/comment/${boardId}`, body);
   }
   getComment(boardId) {
     // console.log("body", body);
     return axios.get(`${base.baseUrl}/board/comment/${boardId}`);
   }
-  updateComment(boardId,commentId,body) {
+  updateComment(boardId, commentId, body) {
     // console.log("body", body);
-    return axios.put(`${base.baseUrl}/board/comment/${boardId}/${commentId}`,body);
+    return axios.put(
+      `${base.baseUrl}/board/comment/${boardId}/${commentId}`,
+      body
+    );
   }
-  deleteComment(boardId,commentId) {
+  deleteComment(boardId, commentId) {
     // console.log("body", body);
-    return axios.delete(`${base.baseUrl}/board/comment/${boardId}/${commentId}`);
+    return axios.delete(
+      `${base.baseUrl}/board/comment/${boardId}/${commentId}`
+    );
   }
   report(body) {
     // console.log("body", body);
-    return axios.post(`${base.baseUrl}/board/report`,body);
+    return axios.post(`${base.baseUrl}/board/report`, body);
+  }
+  story3check() {
+    // console.log("body", body);
+    return axios.get(`${base.baseUrl}/board/check/leaflet`);
   }
 }
 
