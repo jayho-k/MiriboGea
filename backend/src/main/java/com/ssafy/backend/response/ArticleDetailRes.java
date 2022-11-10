@@ -13,12 +13,13 @@ import lombok.Setter;
 public class ArticleDetailRes extends BaseResponseBody {
 
     Board board;
-
-    public static ArticleDetailRes of(Integer statusCode, String message, Board board) {
+    boolean likeState;
+    public static ArticleDetailRes of(Integer statusCode, String message, Board board,boolean likeState) {
         ArticleDetailRes res = new ArticleDetailRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setBoard(board);
+        res.setLikeState(likeState);
         return res;
     }
 }
