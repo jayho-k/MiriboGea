@@ -1,6 +1,6 @@
 import Logo from "../asset/img/logo.png";
 import style from "./css/Navbar.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { selectToken } from "../app/redux/userSlice";
 
