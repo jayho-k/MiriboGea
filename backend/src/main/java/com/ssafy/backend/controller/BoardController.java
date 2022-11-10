@@ -66,7 +66,7 @@ public class BoardController {
         Optional<UserBoardLike> userBoardLike = boardService.getUserBoardLike(boardId, userId);
         // 있으면 삭제 후 return 0
         boolean likeState=userBoardLike.isPresent();
-        
+
         return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board,likeState));
     }
 
