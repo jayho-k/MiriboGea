@@ -50,4 +50,12 @@ public class UserServiceImpl implements UserService {
         user.setBanned(false);
         userRepository.save(user);
     }
+
+    @Override
+    public boolean nicknameValid(String nickname) {
+        if(userRepository.countAllByNickname(nickname) != 0){
+            return false;
+        }
+        return true;
+    }
 }

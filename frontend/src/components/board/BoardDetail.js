@@ -11,6 +11,7 @@ function BoardDetail(){
   useEffect(() => {
     async function load() {
       const detailResponse=await BoardAPI.getBoardDetail(boardId)
+      console.log(detailResponse.data)
       const info=detailResponse.data.board
       setLikeState(detailResponse.data.likeState)
       setBoardInfo(info)

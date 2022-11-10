@@ -112,5 +112,8 @@ public class UserController {
         return BaseResponse.success(progress);
     }
 
-
+    @GetMapping("/check/{nickname}")
+    public ResponseEntity<?> validCheck(@PathVariable("nickname") String nickname){
+        return BaseResponse.success(userService.nicknameValid(nickname));
+    }
 }
