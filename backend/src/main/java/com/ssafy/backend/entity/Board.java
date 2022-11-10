@@ -19,6 +19,8 @@ public class Board {
     @Column(name = "board_id")
     private Long id;
     private String title;
+
+    @Column(length=1000)
     private String content;
     private String category;
     private String picURL;

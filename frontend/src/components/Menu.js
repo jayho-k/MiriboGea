@@ -373,6 +373,11 @@ function Board({ onClose }) {
               </select>
             </div>
               {/* 새 글 작성 */}
+            {
+              boardList.map((board)=>{
+                console.log(board)
+              })
+            }
             <p onClick={()=>{setBoardNum('4');setCategory('mission3');}} className={styles.NewText}>+ 새 글 작성</p>
             <div className={styles.List}>
               {
