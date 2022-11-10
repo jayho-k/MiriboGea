@@ -12,7 +12,7 @@ public interface UserService {
     User registerUser(UserRegisterRequest userRegisterInfo);
     Optional<User> getUserByEmail(String email);
     Optional<User> findOne(Long id);
-    int missionProgress(Long id);
+    int missionProgress(Long id,int progress);
 
     void release(BannedJobData jobData);
 
