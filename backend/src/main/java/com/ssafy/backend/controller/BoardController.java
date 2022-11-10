@@ -4,7 +4,7 @@ import com.ssafy.backend.common.auth.AppUserDetails;
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.UserBoardLike;
-import com.ssafy.backend.repository.CommentRepository;
+
 import com.ssafy.backend.request.ReportArticleReq;
 import com.ssafy.backend.response.ArticleDetailRes;
 import com.ssafy.backend.response.ArticleLikeRes;
@@ -67,7 +67,8 @@ public class BoardController {
         // 있으면 삭제 후 return 0
         boolean likeState=userBoardLike.isPresent();
 
-        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board,likeState));
+        Long likeCount = boardService.getBoardLikeCount(board);
+        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board,likeState,likeCount));
     }
 
     @GetMapping("/myboard") // ex) http://localhost:8080/api/board/myboard?page=0
@@ -196,5 +197,6 @@ public class BoardController {
         boardService.reportArticle(user,board.get(), reportArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
+
 
 }

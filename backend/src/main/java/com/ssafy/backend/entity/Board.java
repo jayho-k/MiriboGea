@@ -13,6 +13,19 @@ import java.time.LocalDateTime;
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 public class Board {
+    public static class BoardSimple{
+        public BoardSimple(Board board,Long count) {
+            title = board.getTitle();
+            picURL = board.getPicURL();
+            likeCount = count;
+            user = board.getUser();
+        }
+        String title;
+        String picURL;
+        Long likeCount;
+        User user;
+    }
+
 
     @Id
     @GeneratedValue

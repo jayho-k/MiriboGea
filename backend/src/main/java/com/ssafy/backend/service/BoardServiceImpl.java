@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
+
 import java.time.LocalDateTime;
 
 
@@ -129,6 +129,13 @@ public class BoardServiceImpl implements BoardService {
         report.setState("unread");
         reportRepository.save(report);
     }
+
+    @Override
+    public Long getBoardLikeCount(Board board) {
+        return userBoardLikeRepository.countByBoard(board);
+    }
+
+
     @Override
     public Optional<Board> getBoardById(Long id) {
         return boardRepository.findById(id);
