@@ -1,15 +1,15 @@
-import UserAPI from "../api/UserAPI";
-import { useState, useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { selectUser } from "../app/redux/userSlice";
+// import UserAPI from "../api/UserAPI";
+// import { useState, useEffect } from "react";
+// import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+// import { selectUser } from "../app/redux/userSlice";
 import NavBar from "./Navbar";
 import style from "./css/Mainpage.module.css";
 import main from "../asset/img/main.png";
 import intro from "../asset/img/intro.png";
 
 function MainPage(){
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   return (
     <div className={style.mainBackground}>
       <NavBar/>
