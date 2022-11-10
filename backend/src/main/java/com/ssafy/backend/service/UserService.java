@@ -13,7 +13,7 @@ public interface UserService {
     Optional<User> getUserByEmail(String email);
     Optional<User> findOne(Long id);
     int missionProgress(Long id,int progress);
-
+    boolean nicknameValid(String nickname);
     void release(BannedJobData jobData);
 
 }

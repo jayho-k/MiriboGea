@@ -14,12 +14,14 @@ public class ArticleDetailRes extends BaseResponseBody {
 
     Board board;
     boolean likeState;
-    public static ArticleDetailRes of(Integer statusCode, String message, Board board,boolean likeState) {
+    Long likeCount;
+    public static ArticleDetailRes of(Integer statusCode, String message, Board board,boolean likeState,Long likeCount) {
         ArticleDetailRes res = new ArticleDetailRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setBoard(board);
         res.setLikeState(likeState);
+        res.setLikeCount(likeCount);
         return res;
     }
 }

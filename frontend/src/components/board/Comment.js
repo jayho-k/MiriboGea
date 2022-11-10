@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 
 import BoardAPI from "../../api/BoardAPI";
 function Comment({boardId,comment,setCommentList}){

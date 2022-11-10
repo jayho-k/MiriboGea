@@ -9,6 +9,7 @@ import SetProfile from "./components/auth/SetProfile";
 import BoardDetail from './components/board/BoardDetail';
 import BoardList from './components/board/BoardList';
 import CreateBoard from './components/board/CreateBoard';
+import World from './components/world/World';
 import './App.css';
 
 
@@ -27,9 +28,13 @@ function App() {
         <Route path="/board/:category" element={<BoardList />} />
         <Route path="/board/detail/:boardId" element={<BoardDetail />} />
         <Route path="/create-board" element={<CreateBoard />} />
+
+        <Route path="/world" element={<World />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
+
+
