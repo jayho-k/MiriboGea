@@ -17,12 +17,12 @@ class UserAPI {
     const body = {
       code: code,
     };
-    return axios.post(`${base.baseUrl}/user/login`, body);
+    return Axios.post(`${base.baseUrl}/user/login`, body);
   }
 
   join(body) {
     // console.log("body", body);
-    return axios.post(`${base.baseUrl}/user/join`, body);
+    return Axios.post(`${base.baseUrl}/user/join`, body);
   }
 
   mypage() {

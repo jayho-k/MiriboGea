@@ -10,6 +10,7 @@ import com.ssafy.backend.request.CreateCommentReq;
 import com.ssafy.backend.request.ReportArticleReq;
 import com.ssafy.backend.request.UpdateCommentReq;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
@@ -65,7 +67,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<Board> getArticleListByCategory(String category, Pageable pageable) {
-        return boardRepository.findAll(pageable).stream().filter(v -> v.getCategory().equals(category)).collect(Collectors.toList());
+        log.debug("category {}",category);
+        return boardRepository.findAll().stream().collect(Collectors.toList());
     }
 
     @Override

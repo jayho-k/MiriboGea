@@ -1,0 +1,60 @@
+.commentBox{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 800px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0%);
+  margin-top: 8px;
+}
+.userInfo{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 200px;
+}
+.userImg{
+  width: 56px;
+  height: 56px;
+  border-radius: 56px;
+}
+.userNickname{
+  font-family: 'maplebold';
+  font-size: 18px;
+  margin-left: 16px;
+}
+.userCommentBox{
+  width: 572px;
+}
+.userComment{
+  font-family: 'mapleLight';
+  text-align: left;
+  font-size: 20px;
+  padding-top: 16px;
+  vertical-align: bottom;
+}
+.fixBox{
+  display: flex;
+  justify-content: end;
+}
+.commentImg{
+  width: 15px;
+  margin: 8px 16px 8px 16px;
+}
+.fixInput{
+  font-family: 'mapleLight';
+  text-align: left;
+  font-size: 20px;
+  height: 32px;
+  padding-left: 8px;
+  width: 516px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: solid 1px black;
+}
+.commentFixBox{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

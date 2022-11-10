@@ -12,7 +12,7 @@ function BoardList(){
       const response=await BoardAPI.allBoard(category)
       const boardList=response.data.articleList
       setBoardList(boardList)
-      console.log(response)
+      console.lbog(response)
     }
     load();
   }, []);
