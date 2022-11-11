@@ -22,7 +22,7 @@ function CreateBoard(){
     setFileImage(URL.createObjectURL(e.target.files[0]));
     setUploadImage(e.target.files[0]);
   };
-  const [boardInfo, setBoardInfo] = useState();
+  const [boardInfo, setBoardInfo] = useState({});
   function setTitle(title){
     setBoardInfo({
       ...boardInfo,
@@ -30,9 +30,11 @@ function CreateBoard(){
     })
   }
   function setContent(content){
-    setBoardInfo({
-      ...boardInfo,
+    setBoardInfo(boardInfo=>{
+      return {
+        ...boardInfo,
       content:content
+      }
     })
   }
   function setCategory(category){
@@ -43,17 +45,17 @@ function CreateBoard(){
     setSelected(category);
   }
   function setPicURL(picURL){
-    setBoardInfo({
-      ...boardInfo,
-      picURL:picURL
+    setBoardInfo((boardInfo)=>{
+      return {
+        ...boardInfo,
+        picURL:picURL
+      }
     })
   }
   async function boardWrite(){
     const picURL=await uploadImageFile(uploadImage)
-    console.log(picURL)
-    setPicURL(picURL)
-    console.log(boardInfo)
-    const result=await BoardAPI.createBoard(boardInfo)
+
+    const result=await BoardAPI.createBoard({...boardInfo,picURL:picURL})
     console.log(result)
   }
   return (
