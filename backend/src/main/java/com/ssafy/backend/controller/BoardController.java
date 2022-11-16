@@ -196,5 +196,11 @@ public class BoardController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 
-
+    @GetMapping("/check/{category}")
+    public ResponseEntity<CheckArticleRes> CheckArticle(Authentication authentication, @PathVariable String category){
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
+        boolean checked = boardService.checkArticleExistence(userId, category);
+        return ResponseEntity.status(200).body(CheckArticleRes.of(200, "success", checked));
+    }
 }
