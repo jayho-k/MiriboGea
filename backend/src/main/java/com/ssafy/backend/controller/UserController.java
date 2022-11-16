@@ -108,8 +108,8 @@ public class UserController {
         AppUserDetails userDetails=(AppUserDetails)authentication.getDetails();
         Long userId = userDetails.getUserId();
         int progress= progressReq.getProgress();
-        userService.missionProgress(userId,progress);
-        return BaseResponse.success(progress);
+        int userProgress = userService.missionProgress(userId, progress);
+        return BaseResponse.success(userProgress);
     }
 
     @GetMapping("/check/{nickname}")
