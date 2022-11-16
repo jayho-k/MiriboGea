@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Board> getArticleListByCategory(String category, Pageable pageable) {
         log.debug("category {}",category);
-        return boardRepository.findAll().stream().collect(Collectors.toList());
+        return boardRepository.findAll();
     }
 
     @Override

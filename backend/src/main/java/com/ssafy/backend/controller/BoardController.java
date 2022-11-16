@@ -85,11 +85,12 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<? extends BaseResponseBody> createArticle(@ApiIgnore Authentication authentication, @RequestBody @Validated CreateArticleReq createArticleReq) {
+    public ResponseEntity<? extends BaseResponseBody> createArticle(@ApiIgnore Authentication authentication, @RequestBody @Validated CreateArticleReq createArticleReq, @ApiIgnore @PageableDefault(size = 12) Pageable pageable) {
         AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
         User user = appUserDetails.getAppUser();
-        boardService.createArticle(user, createArticleReq);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+        Board board = boardService.createArticle(user, createArticleReq);
+        List<Board> boardList = boardService.getArticleListByCategory(board.getCategory(),pageable);
+        return ResponseEntity.status(200).body(ArticleCreateRes.of(200, "success",boardList,board.getId()));
     }
 
     @PatchMapping("/detail/{boardId}")
