@@ -12,8 +12,8 @@ public interface UserService {
     User registerUser(UserRegisterRequest userRegisterInfo);
     Optional<User> getUserByEmail(String email);
     Optional<User> findOne(Long id);
-    int missionProgress(Long id);
-
+    int missionProgress(Long id,int progress);
+    boolean nicknameValid(String nickname);
     void release(BannedJobData jobData);
 
 }

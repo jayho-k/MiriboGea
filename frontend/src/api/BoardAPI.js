@@ -16,7 +16,7 @@ const axios = Axios.create({
 class BoardAPI {
   
   allBoard(category) {
-    return axios.get(`${base.baseUrl}/board/${category}`,);
+    return axios.get(`${base.baseUrl}/board/${category}`);
   }
 
   getBoardDetail(boardId) {

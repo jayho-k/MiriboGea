@@ -1,11 +1,11 @@
 .mainBackground {
+  min-width: 1190px;
   width: 100vw;
   height: 100vh;
   background: linear-gradient(178.81deg, #FFFDD4 11.07%, #D8EFDF 57.35%, rgba(88, 204, 231, 0.87) 126.32%);
   background-size: 160% 160%;
   -webkit-animation: gradient 8s ease infinite;
   animation: gradient 8s ease infinite;
-  overflow: scroll;
 }
 @keyframes gradient {
   0% { background-position: 50% 0%; }
@@ -18,19 +18,16 @@
   100% { background-position: 50% 0%; }
 }
 
-
-.login{
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .logindog{
   width: 600px;
+  position: relative;
+  top : 25%;
+  left: 468px;
 }
 .kakaologin{
-  margin-top: 40px;
+  /* margin-top: 40px; */
   width: 300px;
+  position: relative;
+  top : 40%;
+  left: 0%;
 }

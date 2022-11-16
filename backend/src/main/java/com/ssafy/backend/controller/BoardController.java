@@ -4,15 +4,12 @@ import com.ssafy.backend.common.auth.AppUserDetails;
 import com.ssafy.backend.common.model.response.BaseResponseBody;
 import com.ssafy.backend.entity.Board;
 import com.ssafy.backend.entity.UserBoardLike;
-import com.ssafy.backend.repository.CommentRepository;
+
 import com.ssafy.backend.request.ReportArticleReq;
-import com.ssafy.backend.response.ArticleDetailRes;
-import com.ssafy.backend.response.ArticleLikeRes;
-import com.ssafy.backend.response.ArticleListRes;
+import com.ssafy.backend.response.*;
 import com.ssafy.backend.entity.Comment;
 import com.ssafy.backend.request.CreateCommentReq;
 import com.ssafy.backend.request.UpdateCommentReq;
-import com.ssafy.backend.response.GetCommentRes;
 import com.ssafy.backend.service.BoardService;
 import com.ssafy.backend.service.ReportService;
 import io.swagger.annotations.ApiOperation;
@@ -59,9 +56,16 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<ArticleDetailRes> getArticleDetail(@PathVariable("boardId") Long boardId) {
+    public ResponseEntity<ArticleDetailRes> getArticleDetail(@ApiIgnore Authentication authentication,@PathVariable("boardId") Long boardId) {
+        AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
+        Long userId = appUserDetails.getUserId();
         Board board = boardService.getBoardById(boardId).get();
-        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board));
+        Optional<UserBoardLike> userBoardLike = boardService.getUserBoardLike(boardId, userId);
+        // 있으면 삭제 후 return 0
+        boolean likeState=userBoardLike.isPresent();
+
+        Long likeCount = boardService.getBoardLikeCount(board);
+        return ResponseEntity.status(200).body(ArticleDetailRes.of(200,"success",board,likeState,likeCount));
     }
 
     @GetMapping("/myboard") // ex) http://localhost:8080/api/board/myboard?page=0
@@ -81,11 +85,12 @@ public class BoardController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity<? extends BaseResponseBody> createArticle(@ApiIgnore Authentication authentication, @RequestBody @Validated CreateArticleReq createArticleReq) {
+    public ResponseEntity<? extends BaseResponseBody> createArticle(@ApiIgnore Authentication authentication, @RequestBody @Validated CreateArticleReq createArticleReq, @ApiIgnore @PageableDefault(size = 12) Pageable pageable) {
         AppUserDetails appUserDetails = (AppUserDetails) authentication.getDetails();
         User user = appUserDetails.getAppUser();
-        boardService.createArticle(user, createArticleReq);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+        Board board = boardService.createArticle(user, createArticleReq);
+        List<Board> boardList = boardService.getArticleListByCategory(board.getCategory(),pageable);
+        return ResponseEntity.status(200).body(ArticleCreateRes.of(200, "success",boardList,board.getId()));
     }
 
     @PatchMapping("/detail/{boardId}")
@@ -190,5 +195,6 @@ public class BoardController {
         boardService.reportArticle(user,board.get(), reportArticleReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
+
 
 }
