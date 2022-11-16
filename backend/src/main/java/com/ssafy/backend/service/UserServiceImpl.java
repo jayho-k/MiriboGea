@@ -39,7 +39,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public int missionProgress(Long id,int progress) {
         User user = userRepository.findById(id).orElseGet(() -> new User());
-        user.setMissionProgress(progress);
+
+        int userProgress = user.getMissionProgress();
+
+        // 현재 미션이 클리어 됐는지 확인
+        boolean missionClear=userProgress/(int)Math.pow(2,progress)%2==1;
+
+        // 미션이 클리어 안됐다면 클리어 시켜줌
+        if(!missionClear)
+            userProgress+=Math.pow(2,progress);
+        
+        user.setMissionProgress(userProgress);
         userRepository.save(user);
         return user.getMissionProgress();
     }
