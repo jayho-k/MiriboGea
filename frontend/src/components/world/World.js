@@ -16,12 +16,11 @@ function World() {
 
   function handleClickSpawnEnemies() {
     console.log("asdfsadf");
-    sendMessage("LoadManager", "LoadData", progress);
+    sendMessage("QuestManager", "setProgress", progress);
   }
 
   const loadData = useCallback(async () => {
     console.log("start");
-
     const response = await UserAPI.mypage();
     setProgress(response.data.body.missionProgress);
     // handleClickSpawnEnemies()
@@ -37,31 +36,15 @@ function World() {
     // handleClickSpawnEnemies()
   }, []);
 
-  const story3ArticleCheck = useCallback(async () => {
-    console.log("story3ArticleCheck");
-    const response = await BoardAPI.story3check();
-    console.log("응답 : ", response);
-    sendMessage("PlayerFPS3", "Checked");
-    // handleClickSpawnEnemies()
-  }, []);
-
   useEffect(() => {
     addEventListener("GameStart", loadData);
-    addEventListener("SetProgress", saveProgress);
-    addEventListener("Story3ArticleCheck", story3ArticleCheck);
+    addEventListener("MissionClear", saveProgress);
 
     return () => {
       removeEventListener("GameStart", loadData);
-      removeEventListener("SetProgress", saveProgress);
-      removeEventListener("Story3ArticleCheck", story3ArticleCheck);
+      removeEventListener("MissionClear", saveProgress);
     };
-  }, [
-    addEventListener,
-    removeEventListener,
-    loadData,
-    saveProgress,
-    story3ArticleCheck,
-  ]);
+  }, [addEventListener, removeEventListener, loadData, saveProgress]);
   return (
     <Fragment>
       <button onClick={() => sendMessage("PlayerFPS3", "Checked")}>버튼</button>
@@ -75,6 +58,7 @@ function World() {
         }}
         unityProvider={unityProvider}
       />
+      {handleClickSpawnEnemies()}
     </Fragment>
   );
 }
