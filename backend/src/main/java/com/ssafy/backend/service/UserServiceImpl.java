@@ -37,9 +37,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int missionProgress(Long id) {
+    public int missionProgress(Long id,int progress) {
         User user = userRepository.findById(id).orElseGet(() -> new User());
-        user.setMissionProgress(user.getMissionProgress()+1);
+        user.setMissionProgress(progress);
         userRepository.save(user);
         return user.getMissionProgress();
     }
@@ -49,5 +49,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(jobData.getUserId()).orElseGet(() -> new User());
         user.setBanned(false);
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean nicknameValid(String nickname) {
+        if(userRepository.countAllByNickname(nickname) != 0){
+            return false;
+        }
+        return true;
     }
 }

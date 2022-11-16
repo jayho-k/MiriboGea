@@ -5,6 +5,7 @@ import com.ssafy.backend.common.auth.AppUserDetails;
 import com.ssafy.backend.common.util.JwtTokenUtil;
 import com.ssafy.backend.common.util.KakaoApi;
 import com.ssafy.backend.entity.User;
+import com.ssafy.backend.request.ProgressReq;
 import com.ssafy.backend.request.UserRegisterRequest;
 import com.ssafy.backend.response.BaseResponse;
 import com.ssafy.backend.response.UserLoginResponse;
@@ -103,12 +104,16 @@ public class UserController {
     }
 
     @PutMapping("/progress")
-    public ResponseEntity<?> progress(Authentication authentication) {
+    public ResponseEntity<?> progress(Authentication authentication, @RequestBody ProgressReq progressReq) {
         AppUserDetails userDetails=(AppUserDetails)authentication.getDetails();
         Long userId = userDetails.getUserId();
-        int progress = userService.missionProgress(userId);
+        int progress= progressReq.getProgress();
+        userService.missionProgress(userId,progress);
         return BaseResponse.success(progress);
     }
 
-
+    @GetMapping("/check/{nickname}")
+    public ResponseEntity<?> validCheck(@PathVariable("nickname") String nickname){
+        return BaseResponse.success(userService.nicknameValid(nickname));
+    }
 }

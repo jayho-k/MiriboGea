@@ -1,39 +1,148 @@
+.setProfileBox{
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(178.81deg, #FFFDD4 11.07%, #D8EFDF 57.35%, rgba(88, 204, 231, 0.87) 126.32%);
+  background-size: 160% 160%;
+  -webkit-animation: gradient 8s ease infinite;
+  animation: gradient 8s ease infinite;
+  overflow: scroll;
+}
+@keyframes gradient {
+  0% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+  100% { background-position: 50% 0%; }
+}
+@-webkit-keyframes gradient {
+  0% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+  100% { background-position: 50% 0%; }
+}
+.box{
+  position: relative;
+  width: 1000px;
+  left: 350px;
+  top: 20px;
+}
 .title {
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
+  width: 800px;
 }
 
 .photoBox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 16px;
-}
-
-.photo {
-  height: 100px;
-  width: 100px;
-}
-.circle {
-  height: 100px;
-  width: 100px;
+  position: absolute;
+  top: 160px;
+  left: 275px;
 }
 
 .inputBox {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  padding: 16px;
+  position: absolute;
+  bottom: 62px;
+  left: 275px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .inputTag {
-  border-bottom: solid 1px #e5e6ff;
+  height: 30px;
+  font-size: 20px;
+  font-family: "mapleLight";
+  letter-spacing: 2px;
 }
 
 .checkMsg {
   display: flex;
   justify-content: center;
   padding-bottom: 16px;
+}
+.ok {
+  margin-left:40px;
+  width: 60px;
+  /* height: 30px; */
+}
+
+/* modal창 외부화면 */
+.Modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+.ModalText {
+  font-family: 'mapleLight';
+  letter-spacing: 2px;
+  text-align: start;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  color: #4f4f4f;
+  margin-top: 2px;
+  width: 288px;
+  text-align: center;
+}
+/* modal창 */
+.ModalBody {
+  position: absolute;
+  width: 328px;
+  height: 150px;
+  padding: 8px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  top: 12%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.LOModalBody {
+  position: absolute;
+  width: 328px;
+  height: 200px;
+  padding: 8px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  top: 16%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modalCloseBtn {
+  position: absolute;
+  right: 22px;
+  top: 24px;
+}
+
+.buttonBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.NextButton {
+  width: 92px;
+  height: 40px;
+  position: absolute;
+  right: 32px;
+  top: 150px;
+  /* margin: 16px; */
+  background: #94A68B;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'mapleLight';
+  letter-spacing: 2px;
+  color: white;
 }
