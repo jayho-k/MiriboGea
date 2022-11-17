@@ -1,11 +1,11 @@
 com.ssafy:
-  db.url.host: 127.0.0.1
+  db.url.host:54.180.141.174
 
 spring:
   datasource:
     url: jdbc:mysql://${com.ssafy.db.url.host}:3306/b301?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    username: root
-    password: root
+    username: user
+    password: b301jjang!!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
