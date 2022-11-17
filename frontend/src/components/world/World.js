@@ -25,7 +25,6 @@ function World() {
 
     const response=await UserAPI.mypage()
     setProgress(response.data.body.missionProgress);
-    // handleClickSpawnEnemies()
 
   }, []);
 
@@ -49,13 +48,19 @@ function World() {
       removeEventListener("SetProgress", saveProgress);
     };
   }, [addEventListener, removeEventListener, loadData,saveProgress]);
-  return (
-    <Fragment>
-      <button onClick={handleClickSpawnEnemies}>버튼</button>
-      {progress}
-      <Unity style={{width:'100%', height:'100%', justifySelf:'center',alignSelf:'center',}} unityProvider={unityProvider}/>
-    </Fragment>
   
+  return (
+
+      <Fragment>
+        <button onClick={handleClickSpawnEnemies}>버튼</button>
+        {progress}
+        {handleClickSpawnEnemies()}
+        <Unity style={{width:'100%', height:'100%', justifySelf:'center',alignSelf:'center',}} unityProvider={unityProvider}/>
+      
+      </Fragment>
+
+    
+
   );
 
   
