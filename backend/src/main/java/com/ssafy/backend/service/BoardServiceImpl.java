@@ -134,6 +134,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public boolean checkArticleExistence(Long userId, String category) {
+        List<Board> boardList = boardRepository.findByUserId(userId);
+        for (Board board : boardList){
+            if (board.getCategory().equals(category)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Override
     public Long getBoardLikeCount(Board board) {
         return userBoardLikeRepository.countByBoard(board);
     }
