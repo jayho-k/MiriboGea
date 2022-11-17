@@ -6,7 +6,7 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src src
 RUN chmod +x ./gradlew
-RUN ./gradlew bootJAR
+RUN ./gradlew build
 
 FROM openjdk:11
 COPY --from=builder /var/jenkins_home/workspace/deply/backend/build/libs/*.jar app.jar
