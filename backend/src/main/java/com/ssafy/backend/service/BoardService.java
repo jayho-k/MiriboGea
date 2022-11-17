@@ -46,5 +46,7 @@ public interface BoardService {
 
     void reportArticle(User user, Board board, ReportArticleReq reportArticleReq);
 
+    boolean checkArticleExistence(Long userId, String category);
+
     Long getBoardLikeCount(Board board);
 }
