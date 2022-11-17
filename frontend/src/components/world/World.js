@@ -23,7 +23,7 @@ function World() {
     console.log("start");
     const response = await UserAPI.mypage();
     setProgress(response.data.body.missionProgress);
-    // handleClickSpawnEnemies()
+
   }, []);
 
   const saveProgress = useCallback(async (progress) => {
@@ -44,11 +44,10 @@ function World() {
       removeEventListener("GameStart", loadData);
       removeEventListener("MissionClear", saveProgress);
     };
+
   }, [addEventListener, removeEventListener, loadData, saveProgress]);
   return (
     <Fragment>
-      <button onClick={() => sendMessage("PlayerFPS3", "Checked")}>버튼</button>
-      {progress}
       <Unity
         style={{
           width: "100%",
