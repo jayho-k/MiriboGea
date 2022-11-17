@@ -1,5 +1,5 @@
 com.ssafy:
-  db.url.host:54.180.141.174
+  db.url.host: 54.180.141.174
 
 spring:
   datasource:
