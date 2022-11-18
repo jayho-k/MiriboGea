@@ -8,10 +8,10 @@ function World() {
 
   const { unityProvider, addEventListener, removeEventListener, sendMessage } =
     useUnityContext({
-      loaderUrl: "Build/build.loader.js",
-      dataUrl: "Build/build.data",
-      frameworkUrl: "Build/build.framework.js",
-      codeUrl: "Build/build.wasm",
+      loaderUrl: "/Build/build.loader.js",
+      dataUrl: "/Build/build.data",
+      frameworkUrl: "/Build/build.framework.js",
+      codeUrl: "/Build/build.wasm",
     });
 
   function handleClickSpawnEnemies() {
