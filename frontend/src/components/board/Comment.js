@@ -59,7 +59,7 @@ function Comment({boardId,comment,setCommentList}){
               onChange={(e) => {setInput(e.target.value);}}
               value={input}/> 
             <img
-              onClick={()=>{updateComment(comment.id);setState(false);}} 
+              onMouseDown={()=>{updateComment(comment.id);setState(false);}} 
               style={{width:"24px",marginTop:"8px"}}src={send} alt=""/>
           </div>
           :
