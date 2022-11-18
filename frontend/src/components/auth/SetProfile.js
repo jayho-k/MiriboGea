@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../app/redux/userSlice";
 import NavBar from "../Navbar";
+import Menu from "../Menu";
 
 function Modal({ onClose }) {
   function handleClose() {
@@ -129,6 +130,7 @@ function SetProfile() {
   return (
     <div className={styles.setProfileBox}>
       <NavBar/>
+      <Menu/>
       <div className={styles.box}>
         <img className={styles.title} src={profile} alt=""/>
         <div className={styles.photoBox}>
