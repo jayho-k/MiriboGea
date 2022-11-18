@@ -19,15 +19,15 @@
 }
 
 .logindog{
-  width: 600px;
+  width: 540px;
   position: relative;
-  top : 25%;
-  left: 468px;
+  top : 20%;
+  left: 480px;
 }
 .kakaologin{
   /* margin-top: 40px; */
   width: 300px;
   position: relative;
-  top : 40%;
-  left: 0%;
+  top : 30%;
+  left: 72px;
 }

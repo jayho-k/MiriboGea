@@ -68,7 +68,7 @@ function NavBar(){
   };
   return(
     <div className={styles.nav}>
-      <img onClick={goToMain} className={styles.logo} src={Logo} alt=""/>
+      {/* <img onClick={goToMain} className={styles.logo} src={Logo} alt=""/> */}
       { location.pathname === "/" && token === "" ? 
         <div className={styles.login} onClick={goToLogin}>
           <p className={styles.text}>Login</p>

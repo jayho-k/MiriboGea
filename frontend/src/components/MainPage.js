@@ -23,10 +23,10 @@ function MainPage(){
         <img onClick={goToUnity} className={style.dogimg} src={main} alt=""/>
         <p className={style.startText}>사진을 눌러서 시작해보세요.</p>
         <div className={style.down}>
-          <img style={{width:'184px'}} src={intro} alt=""/>
+          <img style={{width:'148px'}} src={intro} alt=""/>
         </div>
       </section>
-      {/* <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/> */}
+      <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/>
     </div>
   )
 }
