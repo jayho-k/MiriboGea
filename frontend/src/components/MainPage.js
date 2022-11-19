@@ -89,8 +89,8 @@ function MainPage(){
         <div className={style.mainBackground}style={unityState}>
         <Unity
           style={{
-            width: "100%",
-            height: "100%",
+            width: "100vw",
+            // overflow:"hidden",
             justifySelf: "center",
             alignSelf: "center",
           }}
