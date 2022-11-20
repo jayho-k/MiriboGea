@@ -51,10 +51,11 @@ function Modal({ onClose }) {
   );
 }
 
-function NavBar(){
+function NavBar({props}){
   const [openModal, setOpenModal] = useState(false);
   const showModal = () => {
     setOpenModal(true);
+    props.setLogoutModalOpen(true);
   };
   const navigate = useNavigate();
   const location = useLocation();

@@ -29,6 +29,7 @@
 .dogimg{
   width: 640px;
   cursor: pointer;
+
 }
 
 .startText{
@@ -50,9 +51,15 @@ text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   animation: circlemove 4s linear infinite;
 }
 @keyframes circlemove {
-  0%, 100% { transform: translate(0%, 0%); }
-  50% { transform: translate(0%, -5%); }
+  0%, 100% { transform: translate(0%, 0%); z-index: 0;}
+  50% { transform: translate(0%, -5%); z-index: 0;}
 }
 ::-webkit-scrollbar {
   display: none;
+}
+.downX {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
