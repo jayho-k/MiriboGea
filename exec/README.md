@@ -50,7 +50,7 @@ cd backend
 
 **gradle 프로젝트 빌드** 
 
-./gradlew 
+./gradlew build
 
 **생성된 jar 파일 확인** 
 
@@ -162,28 +162,27 @@ vi /etc/nginx/sites-available/default
 ```bash
 server{
         listen  80;
-        server_name i7b202.p.ssafy.io;
+        server_name k7b301.p.ssafy.io;
         return 301 https://$host$request_uri;
         index index.html index.html;
 }
 
 server{
         listen 443 ssl;
-        server_name i7b202.p.ssafy.io;
+        server_name k7b301.p.ssafy.io;
 
-        ssl_certificate /etc/letsencrypt/live/i7b202.p.ssafy.io/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/i7b202.p.ssafy.io/privkey.pem;
-
-        root /home/ubuntu/S07P12B202/frontend/dist;
+        ssl_certificate /home/ubuntu/certbot/conf/live/k7b301.p.ssafy.io/fullchain.pem;
+        ssl_certificate_key /home/ubuntu/certbot/conf/live/k7b301.p.ssafy.io/privkey.pem;
+        root /home/ubuntu/S07P31B301/frontend/build;
 
                 index index.html index.htm index.nginx-debian.html;
 
-        location / {
+       location / {
                 try_files $uri $uri/ /index.html;
-        }
+       }
 
-        location /api/v1 {
-                proxy_pass http://localhost:8080;
+       location /api {
+                proxy_pass http://k7b301.p.ssafy.io:8080;
                 proxy_redirect off;
                 charset utf-8;
 
@@ -193,25 +192,16 @@ server{
                 proxy_set_header Host $host;
         }
 
-                location ~ ^/(swagger|webjars|configuration|swagger-resources|v2|csrf){
-                proxy_pass http://localhost:8080;
+        location ~ ^/(swagger|webjars|configuration|swagger-resources|v2|csrf){
+                proxy_pass http://k7b301.p.ssafy.io:8080;
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-                location /ws{
-                proxy_pass http://localhost:5443;
-                proxy_redirect off;
-                charset utf-8;
 
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-                proxy_set_header Host $host;
-        }
 }
+
 ```
 
 1.4 Nginx 재시작
@@ -239,7 +229,7 @@ sudo apt-get update -y & sudo apt-get install letsencrypt -y
 2.3 인증서 발급
 
 ```bash
-sudo letsencrypt certonly --standalone -d i7b202.p.ssafy.io
+sudo letsencrypt certonly --standalone -d k7b301.p.ssafy.io
 ```
 
 2.4  nginx 재가동
@@ -247,25 +237,58 @@ sudo letsencrypt certonly --standalone -d i7b202.p.ssafy.io
 ```bash
 sudo service nginx restart
 ```
+### 3. 유니티 파일 빌드
+3.1 유니티 빌드 설정
+1. 좌측상단 File - BuildSetting
+2. Platform : WebGL 선택
+3. 우측하단 Switch Platform 클릭
+4. 좌측하단 PlayerSettings 클릭
+5. Player - PublishingSettings - Compression Format - Disabled로 설정
 
-### 3. 배포
+3.2 유니티파일 빌드하기
+1. 좌측상단 File - BuildSetting
+2. Platform : WebGL 선택
+3. 빌드
+
+3.3 리액트 프로젝트에 유니티 빌드
+1. Build폴더 React프로젝트의 public 하위로 복사
+2. React-Unity-Webgl 라이브러리를 사용하여 빌드
+3. 예제코드
+```JavaScript
+import React from "react";
+import { Unity, useUnityContext } from "react-unity-webgl";
+
+function App() {
+  const { unityProvider } = useUnityContext({
+    loaderUrl: "build/myunityapp.loader.js",
+    dataUrl: "build/myunityapp.data",
+    frameworkUrl: "build/myunityapp.framework.js",
+    codeUrl: "build/myunityapp.wasm",
+  });
+
+  return <Unity unityProvider={unityProvider} />;
+}
+```
+
+
+### 4. 배포
 
 > git clone을 통해 프로젝트를 받은 뒤 각각의 폴더에서 빌드를 진행합니다.
 
-3.1 frontend 빌드(frontend폴더에서 진행)
+4.1 frontend 빌드(frontend폴더에서 진행)
 
 ```bash
 sudo npm install
 sudo npm run build
 ```
 
-3.2 backend 빌드(backend폴더에서 진행)
+4.2 backend 빌드(backend폴더에서 진행)
 
 ```bash
 sudo ./gradlew build
 ```
 
-3.3 배포
+4.3 백엔드 배포
 
 ```bash
 cd /build/libs
