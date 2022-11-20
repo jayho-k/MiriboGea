@@ -76,21 +76,21 @@ function MainPage(){
         <div style={mainStyle}>
           <NavBar/>
             <section className={style.section1}>
+            <div className={style.down}>
               <img onClick={goToUnity} className={style.dogimg} src={main} alt=""/>
               <p className={style.startText}>사진을 눌러서 시작해보세요.</p>
-              <div className={style.down}>
-                <img style={{width:'148px'}} src={intro} alt=""/>
-              </div>
+            </div>
             </section>
           <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/>
         </div>
         
 
-        <div className={style.mainBackground}style={unityState}>
+        <div className={style.unity} style={unityState}>
+        <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/>
         <Unity
           style={{
             width: "100vw",
-            // overflow:"hidden",
+            height: "100vh",
             justifySelf: "center",
             alignSelf: "center",
           }}

@@ -1,7 +1,7 @@
 import styles from "./css/Menu.module.css";
 import React, { useState,useRef,useEffect } from 'react';
 import { useSelector } from "react-redux";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { selectToken } from "../app/redux/userSlice";
 import { uploadImageFile } from "../plugins/s3upload";
 import BoardAPI from "../api/BoardAPI";
@@ -359,9 +359,8 @@ function Menu(){
   const onClick = () => {
     setState(!state)
   }
-  const navigate = useNavigate();
   const goToMain = () => {
-    navigate("/");
+    window.location.replace("/")
   };
   return(
   <div className={styles.menu}>
