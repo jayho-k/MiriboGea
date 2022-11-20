@@ -71,15 +71,23 @@ function MainPage(){
     setUnityState({display: 'block'})
     setMainStyle({display: 'none'})
   };
+  const [logoutModalOpen,setLogoutModalOpen] = useState(false);
   return (
       <div className={style.mainBackground} >
         <div style={mainStyle}>
-          <NavBar/>
+          <NavBar setLogoutModalOpen={setLogoutModalOpen}/>
             <section className={style.section1}>
+            { logoutModalOpen ? 
             <div className={style.down}>
               <img onClick={goToUnity} className={style.dogimg} src={main} alt=""/>
               <p className={style.startText}>사진을 눌러서 시작해보세요.</p>
             </div>
+            :
+            <div className={style.downX}>
+              <img onClick={goToUnity} className={style.dogimg} src={main} alt=""/>
+              <p className={style.startText}>사진을 눌러서 시작해보세요.</p>
+            </div>
+            }
             </section>
           <Menu style={{postion:"fixed", bottom:"30px",left:"30px"}}/>
         </div>
