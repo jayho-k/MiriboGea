@@ -14,8 +14,6 @@ JavaScript(ES6)
 
 HTML5
 
-
-
 **Backend** 
 
 SpringBoot 2.7.5
@@ -28,25 +26,17 @@ Spring data JPA
 
 java-JWT 4.0.0 
 
-
-
 **Unity**
 
 Unity 2021.3.12.f1
-
-
 
 **DB** 
 
 MySQL : 8.0.29
 
-
-
 **Server** 
 
 Ubuntu 20.0
-
-
 
 ## 2. 빌드 설정
 
@@ -146,15 +136,12 @@ create user '계정이름'@'%' identified by '패스워드'; grant all privilege
 
 sudo ufw allow 3306
 
-
-
 ## 3. 배포
 
 ### 1. Nginx 설치 및 파일설정
 
 > 프로젝트는 Nginx를 통해 배포가 진행이 됩니다.
- Ubuntu 20.04.4 LTS를 기준으로 작성되었습니다.
-> 
+>  Ubuntu 20.04.4 LTS를 기준으로 작성되었습니다.
 
 1.1  Nginx 설치
 
@@ -189,7 +176,7 @@ server{
 
         root /home/ubuntu/S07P12B202/frontend/dist;
 
-				index index.html index.htm index.nginx-debian.html;
+                index index.html index.htm index.nginx-debian.html;
 
         location / {
                 try_files $uri $uri/ /index.html;
@@ -206,7 +193,7 @@ server{
                 proxy_set_header Host $host;
         }
 
-				location ~ ^/(swagger|webjars|configuration|swagger-resources|v2|csrf){
+                location ~ ^/(swagger|webjars|configuration|swagger-resources|v2|csrf){
                 proxy_pass http://localhost:8080;
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
@@ -214,7 +201,7 @@ server{
                 proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-				location /ws{
+                location /ws{
                 proxy_pass http://localhost:5443;
                 proxy_redirect off;
                 charset utf-8;
@@ -236,7 +223,6 @@ sudo systemctl restart nginx
 ### 2. HTTPS 세팅
 
 > 비디오, 오디오 기능을 위해 https를 적용하기 위해 인증서를 설정합니다.
-> 
 
 2.1 nginx 중지
 
@@ -265,7 +251,6 @@ sudo service nginx restart
 ### 3. 배포
 
 > git clone을 통해 프로젝트를 받은 뒤 각각의 폴더에서 빌드를 진행합니다.
-> 
 
 3.1 frontend 빌드(frontend폴더에서 진행)
 
@@ -286,3 +271,29 @@ sudo ./gradlew build
 cd /build/libs
 nohup java -jar ssafy-web-project-1.0-SNAPSHOT.jar
 ```
+
+## 4. 사용한 외부 서비스
+
+### 카카오 로그인
+
+사용자 인증을 위해 사용
+
+#### 설정
+
+- [카카오 디벨로퍼스](https://developers.kakao.com/)
+- 로그인
+- 내 애플리케이션
+- 애플리케이션 추가하기
+- 이메일 필수 동의를 위해 개발용 비즈 앱 전환 ([개인 개발자 비즈 앱 전환 방법](https://developers.kakao.com/docs/latest/ko/getting-started/app#biz-app-for-individual))
+- 제품 설정 > 카카오 로그인
+  - 활성화 & Redirect URI 등록
+- 제품 설정 > 카카오 로그인 > 동의항목
+  - 닉네임, 프로필 사진, 카카오계정(이메일) 필수 동의 설정
+- 앱 설정 > 앱 키
+  - REST API
+    - 크리덴셜로 다루기 (저장소에 올라가지 않게)
+      - 프론트엔드
+        - .env.local
+        - .env.production.local
+      - 백엔드
+        - application.yml
