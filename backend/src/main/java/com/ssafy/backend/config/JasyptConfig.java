@@ -2,6 +2,7 @@ package com.ssafy.backend.config;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Configuration
 @EnableEncryptableProperties
 public class JasyptConfig {
