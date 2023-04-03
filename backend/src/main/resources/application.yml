@@ -1,4 +1,5 @@
 com.ssafy:
+#  db.url.host: 54.180.141.174
   db.url.host: 54.180.141.174
 
 spring:
@@ -9,18 +10,20 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: None
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-        show_sql: true
+        show_sql: false
         use_sql_comments: true
   output.ansi.enabled: always
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+
 
 logging:
   level:
@@ -37,3 +40,12 @@ com:
     kakao:
       client_id: cef347beb88f59749e6dea07ba6cdbaf
       redirect_uri: http://localhost:3000/loginresult
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    algorithm: PBEWithMD5AndDES
+    pool-size: 2
+    string-output-type: base64
+    key-obtention-iterations: 100000
+    password: b301jjang!!
